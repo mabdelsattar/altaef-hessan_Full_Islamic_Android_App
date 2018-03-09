@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">اللطائف الحسان</string>
+    <string-array name="songers">
+        <item>عبد الرحمن السديس</item>
+        <item>سعود الشريم</item>
+        <item>مشاري العفاسي</item>
+    </string-array>
+</resources>

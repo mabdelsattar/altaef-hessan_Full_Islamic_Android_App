@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:context="com.daralmathour.altaefhessan.Activities.HomeActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="#4ebf8d"
+        android:id="@+id/action_bar"
+        android:layout_height="?actionBarSize">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="25dp"
+            android:layout_marginLeft="25dp"
+            android:text="اللطائف الحسان"
+            android:textColor="#FFFFFF"
+            android:id="@+id/pageTitle"
+            android:maxLines="1"
+            android:textSize="22sp" />
+    </RelativeLayout>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_below="@+id/action_bar"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_below="@+id/action_bar"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+
+                    android:orientation="vertical"
+                    android:onClick="openSepha"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="125dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/el_sebha"
+                        android:layout_gravity="center"
+                        android:scaleType="fitXY"
+                        android:adjustViewBounds="true"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="السبحة"
+                        android:textSize="18sp"
+                        android:textColor="#01293f"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_margin="5dp"
+                        android:id="@+id/sebha_title" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:onClick="openQuran"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="125dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/quraan_karrem"
+                        android:layout_gravity="center"
+                        android:scaleType="fitXY"
+                        android:adjustViewBounds="true"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="القرآن الكريم"
+                        android:textSize="18sp"
+                        android:textColor="#01293f"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_margin="5dp"
+                        android:id="@+id/quraan_karrem_title" />
+                </LinearLayout>
+
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/color1"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+
+                    android:orientation="vertical"
+                    android:onClick="openMawaqeetElsalah"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="125dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/mawaqeet_elsalah"
+                        android:layout_gravity="center"
+                        android:scaleType="fitXY"
+                        android:adjustViewBounds="true"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="مواقيت الصلاة"
+                        android:textSize="18sp"
+                        android:textColor="#01293f"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_margin="5dp"
+                        android:id="@+id/mawaqeet_elsalah_title" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+
+                    android:orientation="vertical"
+                    android:onClick="openElqepla"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="125dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/etgah_elqebla"
+                        android:layout_gravity="center"
+                        android:scaleType="fitXY"
+                        android:adjustViewBounds="true"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="إتجاه القبلة"
+                        android:textSize="18sp"
+                        android:textColor="#01293f"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_margin="5dp"
+                        android:id="@+id/etgah_elqebla_title" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/color1"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+
+                    android:orientation="vertical"
+                    android:onClick="openMoqtatafaat"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="125dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/moqtatafat"
+                        android:layout_gravity="center"
+                        android:scaleType="fitXY"
+                        android:adjustViewBounds="true"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="مقتطفات إيمانية"
+                        android:textSize="18sp"
+                        android:textColor="#01293f"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_margin="5dp"
+                        android:id="@+id/moqtatafat_title" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+
+                    android:orientation="vertical"
+                    android:onClick="openTwaselMaana"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="125dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/tawassel_maana"
+                        android:layout_gravity="center"
+                        android:scaleType="fitXY"
+                        android:adjustViewBounds="true"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="تواصل معنا"
+                        android:textSize="18sp"
+                        android:textColor="#01293f"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_margin="5dp"
+                        android:id="@+id/tawassel_maana_title" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

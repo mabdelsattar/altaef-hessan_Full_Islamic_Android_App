@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.mawaqeetelsalah.Activities.MawaqeetElsalahActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="@color/color_green"
+        android:layout_alignParentTop="true"
+        android:id="@+id/topBar"
+        android:layout_height="?actionBarSize">
+        <ImageView
+            android:layout_width="?actionBarSize"
+            android:layout_height="?actionBarSize"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/menu"
+            android:padding="12dp"
+            android:scaleType="fitCenter"
+            android:id="@+id/menuBtn"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:maxLines="1"
+            android:textSize="20dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_toLeftOf="@+id/menuBtn"
+            android:text="مواقيت الصلاة"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"/>
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/topBar">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="25dp"
+            android:layout_marginLeft="25dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="#28386c"
+                android:textSize="18dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:textStyle="bold"
+                android:id="@+id/remindTimeHint"
+                android:maxLines="1"
+                android:text="الوقت المتبقي للصلاة القادمة"/>
+            <LinearLayout
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_margin="5dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:background="@drawable/ovel_background"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/prayerName"
+                    android:textColor="#28386c"
+                    android:textSize="16dp"
+                    android:padding="5dp"
+                    android:textStyle="bold"
+                    android:maxLines="1" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="#28386c"
+                    android:textSize="16dp"
+                    android:padding="3dp"
+                    android:textStyle="italic"
+                    android:maxLines="1"
+
+                    android:id="@+id/prayerTime"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="#28386c"
+                android:layout_margin="5dp"
+                android:maxLines="1"
+                android:textSize="16dp"
+                android:textStyle="italic"
+                android:id="@+id/remindTime"/>
+
+            <ProgressBar
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:max="100"
+                android:layoutDirection="rtl"
+                android:progress="80"
+                android:id="@+id/progressBar"
+                android:progressDrawable="@drawable/my_progress_drawable" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="#28386c"
+                android:textSize="20sp"
+                android:layout_margin="5dp"
+                android:textStyle="bold"
+                android:text="مصر"
+                android:maxLines="1"
+                android:id="@+id/country"/>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/prayerItem1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="5dp"
+                android:layout_alignParentTop="true"
+                app:cardBackgroundColor="@color/color_green"
+                app:cardElevation="3dp"
+                app:cardUseCompatPadding="true"
+                app:cardPreventCornerOverlap="false">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layoutDirection="rtl"
+                    android:padding="3dp"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="الفجر"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16dp"
+                        android:padding="5dp"
+                        android:textStyle="bold"
+                        android:maxLines="1"
+                        android:id="@+id/prayerItem1Name"/>
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+                        <ImageView
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:src="@drawable/fagr"
+                            android:layout_weight="1"
+                            android:scaleType="fitCenter"
+                            android:layout_centerInParent="true"
+                            android:id="@+id/prayerItem1Icon"/>
+                    </RelativeLayout>
+
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16dp"
+                        android:padding="3dp"
+                        android:textStyle="italic"
+                        android:maxLines="1"
+                        android:id="@+id/prayerItem1Time"/>
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/notification_on"
+                        android:padding="5dp"
+                        android:layout_weight="1"
+                        android:onClick="applyPrayerNotification"
+                        android:id="@+id/prayerItem1Notification"/>
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/prayerItem2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="5dp"
+                android:layout_alignParentTop="true"
+                app:cardBackgroundColor="@color/color_green"
+                app:cardElevation="3dp"
+                app:cardUseCompatPadding="true"
+                app:cardPreventCornerOverlap="false">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layoutDirection="rtl"
+                    android:padding="3dp"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="الشروق"
+                        android:gravity="center"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16dp"
+                        android:padding="5dp"
+                        android:textStyle="bold"
+                        android:maxLines="1"
+                        android:id="@+id/prayerItem2Name"/>
+
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+                        <ImageView
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:src="@drawable/shroq"
+                            android:layout_weight="1"
+                            android:scaleType="fitCenter"
+                            android:layout_centerInParent="true"
+                            android:id="@+id/prayerItem2Icon"/>
+                    </RelativeLayout>
+
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textColor="#FFFFFF"
+                        android:maxLines="1"
+                        android:textSize="16dp"
+                        android:padding="3dp"
+                        android:textStyle="italic"
+                        android:id="@+id/prayerItem2Time"/>
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/notification_on"
+                        android:padding="5dp"
+                        android:layout_weight="1"
+                        android:onClick="applyPrayerNotification"
+                        android:id="@+id/prayerItem2Notification"/>
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/prayerItem3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="5dp"
+                android:layout_alignParentTop="true"
+                app:cardBackgroundColor="@color/color_green"
+                app:cardElevation="3dp"
+                app:cardUseCompatPadding="true"
+                app:cardPreventCornerOverlap="false">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layoutDirection="rtl"
+                    android:padding="3dp"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="الظهر"
+                        android:gravity="center"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16dp"
+                        android:padding="5dp"
+                        android:textStyle="bold"
+                        android:maxLines="1"
+                        android:id="@+id/prayerItem3Name"/>
+
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+                        <ImageView
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:src="@drawable/zohr"
+                            android:layout_weight="1"
+                            android:scaleType="fitCenter"
+                            android:layout_centerInParent="true"
+                            android:id="@+id/prayerItem3Icon"/>
+                    </RelativeLayout>
+
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16dp"
+                        android:padding="3dp"
+                        android:textStyle="italic"
+                        android:maxLines="1"
+                        android:id="@+id/prayerItem3Time"/>
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/notification_on"
+                        android:padding="5dp"
+                        android:onClick="applyPrayerNotification"
+                        android:layout_weight="1"
+                        android:id="@+id/prayerItem3Notification"/>
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/prayerItem4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="5dp"
+                android:layout_alignParentTop="true"
+                app:cardBackgroundColor="@color/color_green"
+                app:cardElevation="3dp"
+                app:cardUseCompatPadding="true"
+                app:cardPreventCornerOverlap="false">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layoutDirection="rtl"
+                    android:padding="3dp"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="العصر"
+                        android:gravity="center"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16dp"
+                        android:padding="5dp"
+                        android:textStyle="bold"
+                        android:maxLines="1"
+                        android:id="@+id/prayerItem4Name"/>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+                        <ImageView
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:src="@drawable/asr"
+                            android:layout_weight="1"
+                            android:scaleType="fitCenter"
+                            android:layout_centerInParent="true"
+                            android:id="@+id/prayerItem4Icon"/>
+                    </RelativeLayout>
+
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16dp"
+                        android:padding="3dp"
+                        android:textStyle="italic"
+                        android:maxLines="1"
+                        android:id="@+id/prayerItem4Time"/>
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/notification_on"
+                        android:padding="5dp"
+                        android:layout_weight="1"
+                        android:onClick="applyPrayerNotification"
+                        android:id="@+id/prayerItem4Notification"/>
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/prayerItem5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="5dp"
+                android:layout_alignParentTop="true"
+                app:cardBackgroundColor="@color/color_green"
+                app:cardElevation="3dp"
+                app:cardUseCompatPadding="true"
+                app:cardPreventCornerOverlap="false">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layoutDirection="rtl"
+                    android:padding="3dp"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="المغرب"
+                        android:gravity="center"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16dp"
+                        android:padding="5dp"
+                        android:textStyle="bold"
+                        android:maxLines="1"
+                        android:id="@+id/prayerItem5Name"/>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+                        <ImageView
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:src="@drawable/magrab"
+                            android:layout_weight="1"
+                            android:scaleType="fitCenter"
+                            android:layout_centerInParent="true"
+                            android:id="@+id/prayerItem5Icon"/>
+                    </RelativeLayout>
+
+
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16dp"
+                        android:padding="3dp"
+                        android:textStyle="italic"
+                        android:maxLines="1"
+                        android:id="@+id/prayerItem5Time"/>
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/notification_on"
+                        android:padding="5dp"
+                        android:layout_weight="1"
+                        android:onClick="applyPrayerNotification"
+                        android:id="@+id/prayerItem5Notification"/>
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/prayerItem6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="5dp"
+                android:layout_alignParentTop="true"
+                app:cardBackgroundColor="@color/color_green"
+                app:cardElevation="3dp"
+                app:cardUseCompatPadding="true"
+                app:cardPreventCornerOverlap="false">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layoutDirection="rtl"
+                    android:padding="3dp"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="العشاء"
+                        android:gravity="center"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16dp"
+                        android:padding="5dp"
+                        android:textStyle="bold"
+                        android:maxLines="1"
+                        android:id="@+id/prayerItem6Name"/>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+                        <ImageView
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:src="@drawable/esha"
+                            android:layout_weight="1"
+                            android:scaleType="fitCenter"
+                            android:layout_centerInParent="true"
+                            android:id="@+id/prayerItem6Icon"/>
+                    </RelativeLayout>
+
+
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textColor="#FFFFFF"
+                        android:maxLines="1"
+                        android:textSize="16dp"
+                        android:padding="3dp"
+                        android:textStyle="italic"
+                        android:id="@+id/prayerItem6Time"/>
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/notification_on"
+                        android:padding="5dp"
+                        android:layout_weight="1"
+                        android:onClick="applyPrayerNotification"
+                        android:id="@+id/prayerItem6Notification"/>
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>
