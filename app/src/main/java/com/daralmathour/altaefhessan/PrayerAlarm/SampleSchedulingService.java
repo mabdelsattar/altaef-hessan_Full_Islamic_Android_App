@@ -62,36 +62,36 @@ public class SampleSchedulingService extends IntentService {
             if (checkCurrentPrayTime(timeFajr))
             {
                 if (prayerNotificationStatus.get(0))
-                    openApplicationForAzan("Fajr");
+                    openApplicationForAzan("الفجر");
             }
             else if (checkCurrentPrayTime(timeSunrise))
             {
                 if (prayerNotificationStatus.get(1))
-                    openApplicationForAzan("Sunrise");
+                    openApplicationForAzan("الشروق");
 
             }
             else if (checkCurrentPrayTime(timeDhuhr))
             {
                 if (prayerNotificationStatus.get(2))
-                    openApplicationForAzan("Dhuhr");
+                    openApplicationForAzan("الظهر");
 
             }
             else if (checkCurrentPrayTime(timeAsr))
             {
                 if (prayerNotificationStatus.get(3))
-                    openApplicationForAzan("Asr");
+                    openApplicationForAzan("العصر");
 
             }
             else if (checkCurrentPrayTime(timeMaghrib))
             {
                 if (prayerNotificationStatus.get(4))
-                    openApplicationForAzan("Maghrib");
+                    openApplicationForAzan("المغرب");
 
             }
             else if (checkCurrentPrayTime(timeIsha))
             {
                 if (prayerNotificationStatus.get(5))
-                    openApplicationForAzan("Isha");
+                    openApplicationForAzan("العشاء");
             }
         }
 
@@ -134,12 +134,11 @@ public class SampleSchedulingService extends IntentService {
 
         String contentTitle = "اللطائف الحسان - حان موعد الاذان";
         String contentTxt = String.format("حان الان موعد أذن  : "+ prayerName );
-        String actionTxt = "إقاف الاذان";
 
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(context)
                         .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setSmallIcon(R.drawable.mawaqeet_elsalah)
                         .setContentTitle(contentTitle)
                         .setContentText(contentTxt)
                         .setContentIntent(activity)
@@ -147,8 +146,7 @@ public class SampleSchedulingService extends IntentService {
                         .setPriority(NotificationCompat.PRIORITY_HIGH)
                         .setAutoCancel(true)
                         .setDeleteIntent(stopAudioIntent)
-                        .setLargeIcon(largeIconBmp)
-                        .addAction(R.drawable.ic_stat_alarm_off, actionTxt, stopAudioIntent);
+                        .setLargeIcon(largeIconBmp);
 
         // TODO: add a timeout (till Iqama) with android O
 

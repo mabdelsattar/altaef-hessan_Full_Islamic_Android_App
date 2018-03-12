@@ -155,8 +155,10 @@ public class AthanService extends Service implements
 	private void stopAthan() {
 		if (mAudioPlayer != null) {
             Log.d(TAG, "Stopping Athan");
-            if (mAudioPlayer.isPlaying()) { mAudioPlayer.stop(); }
-            mAudioPlayer.release();
+            if (mAudioPlayer.isPlaying())
+            {
+                mAudioPlayer.stop();
+            }
             mAudioPlayer = null;
         }
         unregisterVolumeChangeReceiver();
