@@ -145,6 +145,7 @@ public class Utils {
 
     }
 
+
     public static long getDiffractInMaltese(String end , String start) {
         Log.d(Constant.TAG, "EndTime : " + end);
         SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");

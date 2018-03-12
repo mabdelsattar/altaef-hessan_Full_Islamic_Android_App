@@ -1,5 +1,6 @@
 package com.daralmathour.altaefhessan.PrayerAlarm;
 
+import android.app.ActivityManager;
 import android.app.IntentService;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -100,16 +101,21 @@ public class SampleSchedulingService extends IntentService {
     }
     private void openApplicationForAzan(String prayerName)
     {
+        if (!isMyServiceRunning(AthanService.class)) {
+            showNotification(this, prayerName);
+            Intent audioIntent = new Intent(this, AthanService.class);
+            startService(audioIntent);
+        }
+    }
 
-        showNotification(this, prayerName);
-        Intent audioIntent = new Intent(this, AthanService.class);
-        startService(audioIntent);
-
-//        Intent i = new Intent(this, MawaqeetElsalahActivity.class);
-//        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        i.putExtra("PrayerName",prayerName);
-//        startActivity(i);
-
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
 

@@ -32,6 +32,8 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.util.Log;
 
+import com.daralmathour.altaefhessan.Activities.StopAthanActivity;
+
 import java.io.IOException;
 
 public class AthanService extends Service implements
@@ -106,7 +108,16 @@ public class AthanService extends Service implements
 
     /** Called when MediaPlayer is ready */
     public void onPrepared(MediaPlayer player) {
+        mAudioPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                Log.i(TAG, "onCompletion");
+
+                Intent stopIntent = new Intent(AthanService.this, AthanService.class);
+                stopService(stopIntent);            }
+        });
         mAudioPlayer.start();
+
         Log.i(TAG, "Audio started playing!");
         if(!mAudioPlayer.isPlaying()) {
 	        Log.w(TAG, "Problem in playing audio");
@@ -162,6 +173,12 @@ public class AthanService extends Service implements
             mAudioPlayer = null;
         }
         unregisterVolumeChangeReceiver();
+        try {
+            this.finalize();
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
+
     }
 
 	public void onPause() {
