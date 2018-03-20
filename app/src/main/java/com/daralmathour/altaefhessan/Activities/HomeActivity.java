@@ -57,8 +57,12 @@ public class HomeActivity extends AppCompatActivity {
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         int savepos = prefs.getInt("saveindex", -1);
-        if(savepos == -1)
-           startActivity(new Intent(HomeActivity.this,FehrestActivity.class));
+        if(savepos == -1) {
+            Intent intent = new Intent(HomeActivity.this, QuranActivity.class);
+            intent.putExtra("index", 1);
+            intent.putExtra("position", 0);
+            startActivity(intent);
+        }
         else {
             Intent intent = new Intent(HomeActivity.this, QuranActivity.class);
             intent.putExtra("fromhome", true);
