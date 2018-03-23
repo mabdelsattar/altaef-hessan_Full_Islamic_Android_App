@@ -11,4 +11,9 @@
     <color name="color_green">#3ba978</color>
     <color name="color_green_2">#3bc77d</color>
 
+    <color name="red">#FF0000</color>
+    <color name="black">#000000</color>
+    <!-- <color name="white">#FFFFFF</color> -->
+    <color name="gray">#BBBBBB </color>
+
 </resources>

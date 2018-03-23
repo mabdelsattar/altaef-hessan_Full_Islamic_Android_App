@@ -39,6 +39,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activities.FehrestActivity" />
+        <activity android:name=".Activities.MainOActivity">
+
+        </activity>
+        <activity android:name=".Activities.userPreference"></activity>
         <activity android:name=".Activities.QuranActivity" />
         <activity android:name=".Activities.SebhaActivity" />
         <activity android:name=".Activities.EtgahElqeblaActivity" />
