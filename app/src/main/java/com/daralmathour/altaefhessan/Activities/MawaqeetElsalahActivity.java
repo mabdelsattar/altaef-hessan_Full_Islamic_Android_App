@@ -339,6 +339,7 @@ public class MawaqeetElsalahActivity extends AppCompatActivity implements
 
     Date nextPrayerTime = null;
 
+    CountDownTimer countDownTimer;
     private void addProgressTime(String nextPrayerTime , String lastTime) {
 
 
@@ -351,7 +352,7 @@ public class MawaqeetElsalahActivity extends AppCompatActivity implements
         long factor = dif/100;
         long progress = dif /factor;
 
-        new CountDownTimer(getDiffractInMaltese(nextPrayerTime), 1000) {
+        countDownTimer = new CountDownTimer(getDiffractInMaltese(nextPrayerTime), 1000) {
             public void onTick(long millisUntilFinished) {
                 mRemindTime.setText(msToString(millisUntilFinished));
             }
