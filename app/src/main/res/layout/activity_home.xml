@@ -41,30 +41,31 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:weightSum="2">
+
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
 
                     android:orientation="vertical"
-                    android:onClick="openSepha"
+                    android:onClick="openMoqtatafaat"
                     android:layout_height="wrap_content">
                     <ImageView
                         android:layout_width="125dp"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/el_sebha"
+                        android:src="@drawable/moqtatafat"
                         android:layout_gravity="center"
                         android:scaleType="fitXY"
                         android:adjustViewBounds="true"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="السبحة"
+                        android:text="مقتطفات إيمانية"
                         android:textSize="18sp"
                         android:textColor="#01293f"
                         android:textStyle="bold"
                         android:gravity="center"
                         android:layout_margin="5dp"
-                        android:id="@+id/sebha_title" />
+                        android:id="@+id/moqtatafat_title" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="0dp"
@@ -174,27 +175,27 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
-
+                    android:visibility="invisible"
                     android:orientation="vertical"
-                    android:onClick="openMoqtatafaat"
+                    android:onClick="openSepha"
                     android:layout_height="wrap_content">
                     <ImageView
                         android:layout_width="125dp"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/moqtatafat"
+                        android:src="@drawable/el_sebha"
                         android:layout_gravity="center"
                         android:scaleType="fitXY"
                         android:adjustViewBounds="true"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="مقتطفات إيمانية"
+                        android:text="السبحة"
                         android:textSize="18sp"
                         android:textColor="#01293f"
                         android:textStyle="bold"
                         android:gravity="center"
                         android:layout_margin="5dp"
-                        android:id="@+id/moqtatafat_title" />
+                        android:id="@+id/sebha_title" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="0dp"
