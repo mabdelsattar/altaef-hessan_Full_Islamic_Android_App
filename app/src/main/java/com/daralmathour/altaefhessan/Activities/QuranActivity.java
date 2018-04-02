@@ -42,12 +42,17 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-import static com.daralmathour.altaefhessan.Constant.DOWNLOADED_FILE_NAME;
+import static com.daralmathour.altaefhessan.Constant.DOWNLOADED_FILE_NAME_AL_Hozife;
+import static com.daralmathour.altaefhessan.Constant.DOWNLOADED_FILE_NAME_AL_Sodes;
+import static com.daralmathour.altaefhessan.Constant.DOWNLOADED_FILE_NAME_AL_menshwe;
+import static com.daralmathour.altaefhessan.Constant.DOWNLOADED_FILE_NAME_Abd_Elbaset;
+
 
 public class QuranActivity extends AppCompatActivity {
 
     ArrayList<Integer> allPages;
     TextView soraName;
+    public  static  int selectedSound= 0;
 
     AppConfigurations appConfigurations;
     boolean fromHome;
@@ -204,9 +209,9 @@ public  static  boolean isSaved= false;
 
         ArrayList<String> list = new ArrayList<>();
         list.add("عبد الرحمن السديس");
-        list.add("سعودي الشريم");
-        list.add("مشاري العفاسي");
+        list.add("سعود الشريم");
         list.add("عبد الباسط عبد الصمد");
+        list.add("محمد صديق المنشاوي");
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, list);
         //  ArrayAdapter adapter = ArrayAdapter.createFromResource(this,
         //        R.array.planets_array, R.layout.spinner_item);
@@ -220,8 +225,20 @@ public  static  boolean isSaved= false;
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //Change the selected item's text color
+                selectedSound = position;
                 if (view != null)
                     ((TextView) view).setTextColor(Color.WHITE);
+                btnPlay.setImageResource(R.drawable.ic_play_arrow_white_24dp);
+                if (isPlaying)
+                {
+                    player.pause();
+                    player=null;
+                    isPlaying=false;
+                }
+                else
+                {
+                    player=null;
+                }
             }
 
             @Override
@@ -341,16 +358,32 @@ public  static  boolean isSaved= false;
         });
 
     }
-    private void setMp3FileName(int itemIndex)
+    private void setMp3FileName(int page)
     {
+ //S_SoraNumber - PageNumber.mp3
+        int sora=  getSoraIndexbyPage(page);
+String soraStr= "";
+        String pageStr= "";
 
-        itemIndex++;
-        if(itemIndex < 10)
-            fileName = "00"+itemIndex+"_2.mp3";
-        else if(itemIndex < 100)
-            fileName = "0"+itemIndex+"_2.mp3";
+        page++;
+        if(page < 10)
+            pageStr = "00"+page;
+        else if(page < 100)
+            pageStr = "0"+page;
         else
-            fileName = ""+itemIndex+"_2.mp3";
+            pageStr = ""+page;
+
+        if(sora < 10)
+            soraStr= "00"+sora;
+        else if(sora < 100)
+            soraStr = "0"+sora;
+        else
+            soraStr = ""+sora;
+
+//http://mojamah.net/appfiles/S_002 - 018.mp3
+        fileName= "S_"+soraStr+" - "+pageStr+".mp3";
+
+
 
     }
 
@@ -400,6 +433,20 @@ public  static  boolean isSaved= false;
             return appConfigurations.allSoar.get(appConfigurations.allSoar.size() - 1).Name;
 
         return appConfigurations.allSoar.get(0).Name;
+    }
+    public  int getSoraIndexbyPage(int position) {
+
+
+        for (int i = 0; i < appConfigurations.allSoar.size() - 1; i++) {
+            if (position + 1 >= appConfigurations.allSoar.get(i).FromPage
+                    && position + 1 < appConfigurations.allSoar.get(i + 1).FromPage)
+                return i+1;
+        }
+
+        if (position + 1 >= appConfigurations.allSoar.get(appConfigurations.allSoar.size() - 1).FromPage)
+            return appConfigurations.allSoar.size();
+
+        return 0;
     }
     private void initPagesDrawables() {
         allPages.add(R.drawable.page604);
@@ -1056,7 +1103,19 @@ public  static  boolean isSaved= false;
             mProgressDialog.setCancelable(true);
 
             final DownloadTask downloadTask = new DownloadTask(QuranActivity.this, fileName);
-            downloadTask.execute("https://ia801904.us.archive.org/13/items/quran-by--alsodeas--192--kb----604-part-full-quran-604-page--safahat-mp3/Page" + fileName);
+            String _Url = "";
+            if(selectedSound == 0)
+               _Url = "http://mojamah.net/appfiles/AL_Sodes/";
+            if(selectedSound == 1)
+                _Url ="http://mojamah.net/appfiles/AL_Hozife/";
+            if(selectedSound == 2)
+                _Url = "http://mojamah.net/appfiles/Abd_Elbaset/";
+            if(selectedSound == 3)
+                _Url = "http://mojamah.net/appfiles/AL_menshwe/";
+
+            downloadTask.execute(_Url + fileName);
+
+
             mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
                 @Override
                 public void onCancel(DialogInterface dialog) {
@@ -1079,7 +1138,17 @@ public  static  boolean isSaved= false;
     }
 
     private boolean checkFileExists() {
-        File root = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + DOWNLOADED_FILE_NAME);
+        String _fileName ="";
+        if(selectedSound == 0)
+            _fileName = DOWNLOADED_FILE_NAME_AL_Sodes;
+        if(selectedSound == 1)
+            _fileName = DOWNLOADED_FILE_NAME_AL_Hozife;
+        if(selectedSound == 2)
+          _fileName = DOWNLOADED_FILE_NAME_Abd_Elbaset;
+        if(selectedSound == 3)
+            _fileName = DOWNLOADED_FILE_NAME_AL_menshwe;
+
+        File root = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + _fileName);
         File file = new File(root + File.separator + fileName);
         if (file.exists())
             return true;
@@ -1121,7 +1190,17 @@ public  static  boolean isSaved= false;
 
                 // download the file
                 input = connection.getInputStream();
-                File root = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + DOWNLOADED_FILE_NAME);
+                String _fileName ="";
+                if(selectedSound == 0)
+                    _fileName = DOWNLOADED_FILE_NAME_AL_Sodes;
+                if(selectedSound == 1)
+                    _fileName = DOWNLOADED_FILE_NAME_AL_Hozife;
+                if(selectedSound == 2)
+                    _fileName = DOWNLOADED_FILE_NAME_Abd_Elbaset;
+                if(selectedSound == 3)
+                    _fileName = DOWNLOADED_FILE_NAME_AL_menshwe;
+
+                File root = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + _fileName);
                 root.mkdirs();
 
                 output = new FileOutputStream(root + File.separator + fileName);
@@ -1222,15 +1301,31 @@ public  static  boolean isSaved= false;
     }
 
     private Item loadDownloadedItem() {
-        File root = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + DOWNLOADED_FILE_NAME);
+        String _fileName ="";
+        if(selectedSound == 0)
+            _fileName = DOWNLOADED_FILE_NAME_AL_Sodes;
+        if(selectedSound == 1)
+            _fileName = DOWNLOADED_FILE_NAME_AL_Hozife;
+        if(selectedSound == 2)
+            _fileName = DOWNLOADED_FILE_NAME_Abd_Elbaset;
+        if(selectedSound == 3)
+            _fileName = DOWNLOADED_FILE_NAME_AL_menshwe;
+        File root = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + _fileName);
         File file = new File(root + File.separator + fileName);
         MediaMetadataRetriever md = new MediaMetadataRetriever();
         md.setDataSource(file.getAbsolutePath());
         String title = file.getName();
         String duration = md.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
-        duration = milliSecondsToTimer(Long.parseLong(duration));
-        String url = file.getAbsolutePath();
-        Item item = new Item(url, title, duration);
+        if(duration == null || duration.equals("null"))
+        {
+
+
+        }else {
+            duration = milliSecondsToTimer(Long.parseLong(duration));
+
+            String url = file.getAbsolutePath();
+            Item item = new Item(url, title, duration);
+        }
         return item;
     }
 
