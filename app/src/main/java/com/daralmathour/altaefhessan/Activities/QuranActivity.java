@@ -1115,7 +1115,6 @@ String soraStr= "";
 
             downloadTask.execute(_Url + fileName);
 
-
             mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
                 @Override
                 public void onCancel(DialogInterface dialog) {
