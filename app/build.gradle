@@ -7,8 +7,8 @@ android {
         applicationId "com.daralmathour.altaefhessan"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 2
-        versionName "1.1"
+        versionCode 6
+        versionName "1.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

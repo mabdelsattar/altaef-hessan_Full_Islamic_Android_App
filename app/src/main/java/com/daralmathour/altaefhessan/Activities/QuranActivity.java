@@ -53,7 +53,7 @@ public class QuranActivity extends AppCompatActivity {
     ArrayList<Integer> allPages;
     TextView soraName;
     public  static  int selectedSound= 0;
-
+public Constant constObj;
     AppConfigurations appConfigurations;
     boolean fromHome;
     ImageView btnPlay;
@@ -108,7 +108,7 @@ public  static  boolean isSaved= false;
         soraName = (TextView) findViewById(R.id.soraName);
         songerSpinner = (Spinner) findViewById(R.id.songersSpinner);
 
-
+constObj = new Constant();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         savepos = prefs.getInt("saveindex", -1);
 
@@ -1087,7 +1087,8 @@ String soraStr= "";
             });
 
         } catch (Exception e) {
-            // TODO: handle exception
+            // TODO: handle exceptionint
+            int x= 3;
         }
     }
 
@@ -1317,15 +1318,16 @@ String soraStr= "";
         String duration = md.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
         if(duration == null || duration.equals("null"))
         {
-
-
+            return null;
         }else {
             duration = milliSecondsToTimer(Long.parseLong(duration));
 
             String url = file.getAbsolutePath();
             Item item = new Item(url, title, duration);
+            this.item =  new Item(url, title, duration);
+            return item;
+
         }
-        return item;
     }
 
 

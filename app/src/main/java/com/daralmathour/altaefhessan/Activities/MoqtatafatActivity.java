@@ -47,10 +47,10 @@ public class MoqtatafatActivity extends AppCompatActivity {
         movieList.add(movie);
 
         movie = new Movie("أغرب توبة يحكيها الشيخ العريفي\n","szD8kO2XKwQ",R.drawable.s3);
-        movieList.add(movie);
+     //   movieList.add(movie);
 
         movie = new Movie("الحياة في القبور | خطبة الجمعة د.محمد العريفي\n","a_XPSm4ZVkE",R.drawable.s4);
-        movieList.add(movie);
+       // movieList.add(movie);
 
 
         mAdapter.notifyDataSetChanged();
