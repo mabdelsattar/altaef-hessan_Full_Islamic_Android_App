@@ -1,5 +1,6 @@
 package com.daralmathour.altaefhessan.Activities;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -26,6 +27,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -60,6 +62,10 @@ public Constant constObj;
     String SoraName;
     Spinner songerSpinner;
     ViewPager mViewPager;
+    final Context context = this;
+    private ImageView Tafseerbutton;
+
+
 
     public  static int currentPos = 0;
     public  static int savepos = -1;
@@ -107,7 +113,35 @@ public  static  boolean isSaved= false;
 
         soraName = (TextView) findViewById(R.id.soraName);
         songerSpinner = (Spinner) findViewById(R.id.songersSpinner);
+        Tafseerbutton =(ImageView) findViewById(R.id.btnTafseer);
+        Tafseerbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //currentPos;
+                // custom dialog
+                final Dialog dialog = new Dialog(context);
 
+                dialog.setContentView(R.layout.tafseerdialog);
+                dialog.setTitle("تَدبُّر الآيَات");
+
+                // set the custom dialog components - text, image and button
+                TextView text = (TextView) dialog.findViewById(R.id.tafseerTxt);
+                text.setText(constObj.TafseerList.get(603-mViewPager.getCurrentItem()));
+
+
+                Button dialogButton = (Button) dialog.findViewById(R.id.btnCloseDialog);
+                // if button is clicked, close the custom dialog
+                dialogButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.show();
+
+            }
+        });
 constObj = new Constant();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         savepos = prefs.getInt("saveindex", -1);
@@ -209,7 +243,7 @@ constObj = new Constant();
 
         ArrayList<String> list = new ArrayList<>();
         list.add("عبد الرحمن السديس");
-        list.add("سعود الشريم");
+        list.add("عبد الرحمن الحذيفي");
         list.add("عبد الباسط عبد الصمد");
         list.add("محمد صديق المنشاوي");
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, list);

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="300dp"
+    android:layout_height="fill_parent">
+
+   <TextView
+    android:layout_width="match_parent"
+    android:padding="5dp"
+    android:layout_height="wrap_content"
+    android:scrollbars="vertical"
+       android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+    android:id="@+id/tafseerTxt"
+    android:layout_gravity="center_horizontal"
+    android:gravity="right"
+    android:textColor="#000" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:text="اغلاق"
+        android:visibility="invisible"
+        android:id="@+id/btnCloseDialog"
+        android:textColor="#FFF"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:background="@color/color1"
+        />
+
+
+</LinearLayout>
