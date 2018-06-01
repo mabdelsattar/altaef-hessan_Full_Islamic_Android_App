@@ -117,6 +117,8 @@ public  static  boolean isSaved= false;
         Tafseerbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
                 //currentPos;
                 // custom dialog
                 final Dialog dialog = new Dialog(context);

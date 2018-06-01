@@ -32,9 +32,7 @@ public class MoqtatafatActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
-
         prepareMovieData();
-
 
     }
 
