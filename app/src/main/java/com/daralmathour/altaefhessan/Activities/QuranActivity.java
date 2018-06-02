@@ -24,16 +24,24 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daralmathour.altaefhessan.*;
+import com.daralmathour.altaefhessan.AyatInfo.AllAyatInforamation;
+import com.daralmathour.altaefhessan.AyatInfo.AyahInformation;
+import com.daralmathour.altaefhessan.AyatInfo.MyView;
+import com.daralmathour.altaefhessan.AyatInfo.PageInformation;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -52,7 +60,10 @@ import static com.daralmathour.altaefhessan.Constant.DOWNLOADED_FILE_NAME_Abd_El
 
 public class QuranActivity extends AppCompatActivity {
 
+    AllAyatInforamation allAyatInforamation=null;
+    RelativeLayout quran_layout;
     ArrayList<Integer> allPages;
+    int index = 603;
     TextView soraName;
     public  static  int selectedSound= 0;
 public Constant constObj;
@@ -64,8 +75,8 @@ public Constant constObj;
     ViewPager mViewPager;
     final Context context = this;
     private ImageView Tafseerbutton;
-
-
+    private float[] lastTouchDownXY = new float[2];
+    private static float xPos,yPos;
 
     public  static int currentPos = 0;
     public  static int savepos = -1;
@@ -110,7 +121,7 @@ public  static  boolean isSaved= false;
         setContentView(R.layout.activity_quran);
 
         appConfigurations =new AppConfigurations();
-
+        quran_layout = (RelativeLayout)findViewById(R.id.quran_layout);
         soraName = (TextView) findViewById(R.id.soraName);
         songerSpinner = (Spinner) findViewById(R.id.songersSpinner);
         Tafseerbutton =(ImageView) findViewById(R.id.btnTafseer);
@@ -216,7 +227,6 @@ constObj = new Constant();
             }
         });
 
-        int index = 603;
 
         SoraName = appConfigurations.allSoar.get(0).Name;
 
@@ -290,6 +300,96 @@ constObj = new Constant();
         initPagesDrawables();
         CustomPagerAdapter mCustomPagerAdapter = new CustomPagerAdapter(this, allPages);
         mViewPager = (ViewPager) findViewById(R.id.pager);
+
+
+
+        View.OnTouchListener touchListener = new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                // save the X,Y coordinates
+                if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+                    startTime = event.getEventTime();
+
+                    xPos = event.getX();
+                    yPos = event.getY();
+
+                    if (allAyatInforamation == null)
+                        allAyatInforamation = new AllAyatInforamation();
+
+
+                    PageInformation pageInformation = allAyatInforamation.AllQuranPages.get(603-mViewPager.getCurrentItem());
+                    ArrayList<AyahInformation> ayahInformations = pageInformation.getPageAyat();
+                    for (AyahInformation ayah :
+                            ayahInformations) {
+
+                        int y_start = (int) (((int) (mViewPager.getHeight()) * ayah.yStart) / 2024);
+                        int y_end = (int) (((int) (mViewPager.getHeight()) * ayah.yEnd) / 2024);
+                        int x_start = (int) (((int) (mViewPager.getWidth()) * ayah.xStart) / 1536);
+                        int x_end = (int) (((int) (mViewPager.getWidth()) * ayah.xEnd) / 1536);
+
+                      /*  if (x_start > x_end) {
+
+                        } else if (x_end > x_start) {
+                            x_end = x_start - 100;
+                        }*/
+                        if (yPos >= y_start
+                                && yPos < y_end) {
+                            // soraNum = i.sora_num
+                            //ayaNum  = i.Aya_num
+                            Toast.makeText(getApplicationContext(), ayah.getAyahContent(), Toast.LENGTH_LONG).show();
+                            //print(i.Aya_num)
+                            //print(i.content)
+                            final int childCount = quran_layout.getChildCount();
+                            for (int i = 0; i < childCount; i++) {
+                                View vv = quran_layout.getChildAt(i);
+                                if (vv instanceof MyView) {
+                                    quran_layout.removeView(vv);
+
+                                }
+                            }
+
+                            MyView myView = new MyView(QuranActivity.this, (int) x_start, y_start+100, x_end,y_end+100);
+                            quran_layout.addView(myView);
+                            //CGRect(x: x_end, y:y_start+Int((topBar.frame.size.height + bottomBar.frame.size.height))
+ //, width:x_start-x_end, height: y_end-y_start))
+                        }
+
+
+
+
+
+                        //  Toast.makeText(getBaseContext(), "x ="+xPos+" ,y ="+yPos, Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+                else if(event.getAction() == MotionEvent.ACTION_UP){
+                    //record the end time
+                    endTime = event.getEventTime();
+                    Log.d("LC", "IN UP");
+                    if(endTime - startTime > 500){
+                        //we have a 1000ms duration touch
+                        //propagate your own event
+                        Log.d("LC", "time touched greater than 1000ms");
+                        Toast.makeText(getBaseContext(), "Hello 123", Toast.LENGTH_SHORT).show();
+                        startTime=0;
+                        endTime=0;
+                        return true; //notify that you handled this event (do not propagate)
+                    }
+                }else if(event.getAction() == MotionEvent.ACTION_MOVE){
+                    Log.d("LC", "IN move");
+                    endTime=0;
+                }
+
+                // let the touch event pass on to whoever needs it
+                return false;
+            }
+        };
+
+
+
+        mViewPager.setOnTouchListener(touchListener);
+
         mViewPager.setAdapter(mCustomPagerAdapter);
         if(fromHome)
             mViewPager.setCurrentItem(savepos);
@@ -1101,6 +1201,9 @@ String soraStr= "";
     MediaPlayer player;
     private boolean isPlaying = false;
     int length;
+
+    private long startTime=0;
+    private long endTime=0;
 
     private void playMp3File() {
 

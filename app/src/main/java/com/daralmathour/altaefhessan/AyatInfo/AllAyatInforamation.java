@@ -11,6 +11,7 @@ public class AllAyatInforamation {
     public ArrayList<PageInformation> AllQuranPages;
 
     public AllAyatInforamation(){
+        AllQuranPages = new ArrayList<>();
         loadPage0();
         loadPage1();
         loadPage2();
