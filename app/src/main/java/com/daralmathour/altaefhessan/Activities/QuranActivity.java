@@ -66,7 +66,7 @@ public class QuranActivity extends AppCompatActivity {
     int index = 603;
     TextView soraName;
     public  static  int selectedSound= 0;
-public Constant constObj;
+    public Constant constObj;
     AppConfigurations appConfigurations;
     boolean fromHome;
     ImageView btnPlay;
@@ -78,7 +78,7 @@ public Constant constObj;
     private float[] lastTouchDownXY = new float[2];
     private static float xPos,yPos;
 
-    public  static int currentPos = 0;
+    //public  static int currentPos = 0;
     public  static int savepos = -1;
 public  static  boolean isSaved= false;
 
@@ -89,7 +89,7 @@ public  static  boolean isSaved= false;
         if(savepos != -1)
             myindex = savepos;
         else
-            myindex = currentPos;
+            myindex = 603-index;
 
         Bitmap bitmap= BitmapFactory.decodeResource(getResources(),allPages.get(myindex));
 
@@ -155,7 +155,7 @@ public  static  boolean isSaved= false;
 
             }
         });
-constObj = new Constant();
+        constObj = new Constant();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         savepos = prefs.getInt("saveindex", -1);
 
@@ -186,7 +186,7 @@ constObj = new Constant();
         final ImageView btnSaveBookMark= (ImageView)findViewById(R.id.btnBookMark);
 
 
-        if(savepos == currentPos) {
+        if(savepos == index) {
             btnSaveBookMark.setImageResource(R.drawable.bookmark_marked);
             isSaved = true;
         }
@@ -198,11 +198,11 @@ constObj = new Constant();
                 if(!isSaved) {
                     btnSaveBookMark.setImageResource(R.drawable.bookmark_marked);
                     isSaved = true;
-                    savepos = currentPos;
+                    savepos = index;
                     //save index to shared preference
                     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                     SharedPreferences.Editor editor = prefs.edit();
-                    editor.putInt("saveindex", currentPos);
+                    editor.putInt("saveindex", savepos);
                     editor.putString("soraname", soraName.getText().toString());
                     editor.commit();
                     Toast.makeText(getApplicationContext(),"تم حفظ العلامه",Toast.LENGTH_LONG).show();
@@ -217,7 +217,7 @@ constObj = new Constant();
                     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                     SharedPreferences.Editor editor = prefs.edit();
                     editor.putInt("saveindex", -1);
-                    editor.putString("soraname", soraName.getText().toString());
+                    editor.putString("soraname", null);
 
                     editor.commit();
 
@@ -236,7 +236,12 @@ constObj = new Constant();
             index = getIntent().getExtras().getInt("index");
             if(!fromHome) {
                 SoraName = appConfigurations.allSoar.get(getIntent().getExtras().getInt("position", 0)).Name;
-                index = 604 - index;
+                index = 603 - index;
+                //currentPos = index;
+                if(savepos == index) {
+                    btnSaveBookMark.setImageResource(R.drawable.bookmark_marked);
+                    isSaved = true;
+                }
             }
             else{
                 //getting it from shared preference
@@ -328,33 +333,92 @@ constObj = new Constant();
                         int x_start = (int) (((int) (mViewPager.getWidth()) * ayah.xStart) / 1536);
                         int x_end = (int) (((int) (mViewPager.getWidth()) * ayah.xEnd) / 1536);
 
-                      /*  if (x_start > x_end) {
 
-                        } else if (x_end > x_start) {
-                            x_end = x_start - 100;
-                        }*/
                         if (yPos >= y_start
                                 && yPos < y_end) {
-                            // soraNum = i.sora_num
-                            //ayaNum  = i.Aya_num
-                            Toast.makeText(getApplicationContext(), ayah.getAyahContent(), Toast.LENGTH_LONG).show();
-                            //print(i.Aya_num)
-                            //print(i.content)
-                            final int childCount = quran_layout.getChildCount();
-                            for (int i = 0; i < childCount; i++) {
-                                View vv = quran_layout.getChildAt(i);
-                                if (vv instanceof MyView) {
-                                    quran_layout.removeView(vv);
 
+
+                            //Validate X position --one line
+                            if(xPos > x_end && xPos <= x_start) {
+
+                                Toast.makeText(getApplicationContext(), ayah.getAyahContent(), Toast.LENGTH_LONG).show();
+                                //print(i.Aya_num)
+                                //print(i.content)
+                                final int childCount = quran_layout.getChildCount();
+                                for (int i = 0; i < childCount; i++) {
+                                    View vv = quran_layout.getChildAt(i);
+                                    if (vv instanceof MyView) {
+                                        quran_layout.removeView(vv);
+
+                                    }
                                 }
-                            }
 
-                            MyView myView = new MyView(QuranActivity.this, (int) x_start, y_start+100, x_end,y_end+100);
-                            quran_layout.addView(myView);
+                                //check if multi lines
+                                /*if((float)(y_end-y_start)/mViewPager.getHeight() > 0.115)
+                                {
+                                    int numberofRects= (int)((float)(y_end-y_start)/mViewPager.getHeight()/0.115);
+                                    numberofRects++;
+                                    if(numberofRects == 2)
+                                    {
+                                        MyView myView = new MyView(QuranActivity.this, (int) 0, y_start + 100, x_end, (int)((float)mViewPager.getHeight()*0.115) + 100+y_start);
+                                        quran_layout.addView(myView);
+
+                                        myView = new MyView(QuranActivity.this, (int) x_end, (int)((float)mViewPager.getHeight()*0.115) + 100+y_start, mViewPager.getWidth()-1, (int)((float)mViewPager.getHeight()*0.115) + 100+y_start);
+                                        quran_layout.addView(myView);
+
+                                    }else{
+
+                                    }
+
+                                }else{
+                                    MyView myView = new MyView(QuranActivity.this, (int) x_start, y_start + 100, x_end, y_end + 100);
+                                    quran_layout.addView(myView);
+                                }*/
+                                MyView myView = new MyView(QuranActivity.this, (int) x_start, y_start + 100, x_end, y_end + 100);
+                                quran_layout.addView(myView);
+
+break;
+                            }else if((float)(y_end-y_start)/mViewPager.getHeight() > 0.115){
+                                Toast.makeText(getApplicationContext(), ayah.getAyahContent(), Toast.LENGTH_LONG).show();
+                                //print(i.Aya_num)
+                                //print(i.content)
+                                final int childCount = quran_layout.getChildCount();
+                                for (int i = 0; i < childCount; i++) {
+                                    View vv = quran_layout.getChildAt(i);
+                                    if (vv instanceof MyView) {
+                                        quran_layout.removeView(vv);
+
+                                    }
+                                }
+
+                                //check if multi lines
+                                /*if((float)(y_end-y_start)/mViewPager.getHeight() > 0.115)
+                                {
+                                    int numberofRects= (int)((float)(y_end-y_start)/mViewPager.getHeight()/0.115);
+                                    numberofRects++;
+                                    if(numberofRects == 2)
+                                    {
+                                        MyView myView = new MyView(QuranActivity.this, (int) 0, y_start + 100, x_start, (int)((float)mViewPager.getHeight()*0.115) + 100+y_start);
+                                        quran_layout.addView(myView);
+
+                                        myView = new MyView(QuranActivity.this, (int) x_end, (int)((float)mViewPager.getHeight()*0.115) + 100+y_start, mViewPager.getWidth()-1, (int)((float)mViewPager.getHeight()*0.115) + 100+y_start);
+                                        quran_layout.addView(myView);
+
+                                    }else{
+
+                                    }
+
+                                }else{
+                                    MyView myView = new MyView(QuranActivity.this, (int) x_start, y_start + 100, x_end, y_end + 100);
+                                    quran_layout.addView(myView);
+                                }*/
+                                MyView myView = new MyView(QuranActivity.this, (int) x_start, y_start + 100, x_end, y_end + 100);
+                                quran_layout.addView(myView);
+break;
+                            }
                             //CGRect(x: x_end, y:y_start+Int((topBar.frame.size.height + bottomBar.frame.size.height))
  //, width:x_start-x_end, height: y_end-y_start))
                         }
-
 
 
 
@@ -395,6 +459,13 @@ constObj = new Constant();
             mViewPager.setCurrentItem(savepos);
         else
             mViewPager.setCurrentItem(index);
+
+
+        if(savepos == index) {
+            btnSaveBookMark.setImageResource(R.drawable.bookmark_marked);
+            isSaved = true;
+        }
+
         // getSupportActionBar().setTitle(SoraName);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -406,9 +477,9 @@ constObj = new Constant();
             @Override
             public void onPageSelected(int position) {
                 //you have position on page
-                currentPos = position;
+                index = 603-position;
                 setMp3FileName(603-mViewPager.getCurrentItem());
-                if(savepos == currentPos) {
+                if(savepos == position) {
                     btnSaveBookMark.setImageResource(R.drawable.bookmark_marked);
                     isSaved = true;
                 }else{

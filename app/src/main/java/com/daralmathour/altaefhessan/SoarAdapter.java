@@ -63,7 +63,7 @@ public class SoarAdapter extends RecyclerView.Adapter<SoarAdapter.MyViewHolder> 
             public void onClick(View view) {
                 Intent intent = new Intent(_context, QuranActivity.class);
                 int index = sora.FromPage;
-                intent.putExtra("index", index);
+                intent.putExtra("index", index-1);
                 intent.putExtra("position", position);
                 _context.startActivity(intent);
 

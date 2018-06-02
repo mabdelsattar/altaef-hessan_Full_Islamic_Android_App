@@ -61,7 +61,7 @@ public class HomeActivity extends AppCompatActivity {
         int savepos = prefs.getInt("saveindex", -1);
         if(savepos == -1) {
             Intent intent = new Intent(HomeActivity.this, QuranActivity.class);
-            intent.putExtra("index", 1);
+            intent.putExtra("index", 0);
             intent.putExtra("position", 0);
             startActivity(intent);
         }
