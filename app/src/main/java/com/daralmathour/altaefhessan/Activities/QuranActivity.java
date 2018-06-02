@@ -108,7 +108,7 @@ public  static  boolean isSaved= false;
         shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         shareIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
         shareIntent.setType("image/jpg");
-        shareIntent.putExtra(Intent.EXTRA_TEXT, "اللطائف الحسان https://play.google.com/store/apps/details?id=com.abdelsattar.sebha&hl=en");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, "https://play.google.com/store/apps/details?id=com.daralmathour.altaefhessan");
 
 
         startActivity(Intent.createChooser(shareIntent,"المشاركة عبر"));
