@@ -52,14 +52,21 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-import static com.daralmathour.altaefhessan.Constant.DOWNLOADED_FILE_NAME_AL_Hozife;
-import static com.daralmathour.altaefhessan.Constant.DOWNLOADED_FILE_NAME_AL_Sodes;
-import static com.daralmathour.altaefhessan.Constant.DOWNLOADED_FILE_NAME_AL_menshwe;
-import static com.daralmathour.altaefhessan.Constant.DOWNLOADED_FILE_NAME_Abd_Elbaset;
+import static com.daralmathour.altaefhessan.Constant.DOWNLOADED_FILE_NAME_AL_Hozife_AYAT;
+import static com.daralmathour.altaefhessan.Constant.DOWNLOADED_FILE_NAME_AL_Hozife_PAGE;
+import static com.daralmathour.altaefhessan.Constant.DOWNLOADED_FILE_NAME_AL_Sodes_AYAT;
+import static com.daralmathour.altaefhessan.Constant.DOWNLOADED_FILE_NAME_AL_Sodes_PAGE;
+import static com.daralmathour.altaefhessan.Constant.DOWNLOADED_FILE_NAME_AL_menshwe_AYAT;
+import static com.daralmathour.altaefhessan.Constant.DOWNLOADED_FILE_NAME_AL_menshwe_PAGE;
+import static com.daralmathour.altaefhessan.Constant.DOWNLOADED_FILE_NAME_Abd_Elbaset_AYAT;
+import static com.daralmathour.altaefhessan.Constant.DOWNLOADED_FILE_NAME_Abd_Elbaset_PAGE;
 
 
 public class QuranActivity extends AppCompatActivity {
 
+
+    public  static int AyayNumber = -1;
+    public  static int SoraAyahNumber = -1;
     AllAyatInforamation allAyatInforamation=null;
     RelativeLayout quran_layout;
     ArrayList<Integer> allPages;
@@ -128,7 +135,6 @@ public  static  boolean isSaved= false;
         Tafseerbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
 
                 //currentPos;
                 // custom dialog
@@ -316,6 +322,17 @@ public  static  boolean isSaved= false;
                 if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
                     startTime = event.getEventTime();
 
+                    int childCount = quran_layout.getChildCount();
+                    for (int i = 0; i < childCount; i++) {
+                        View vv = quran_layout.getChildAt(i);
+                        if (vv instanceof MyView) {
+                            quran_layout.removeView(vv);
+
+                        }
+                    }
+
+                    AyayNumber = -1;
+
                     xPos = event.getX();
                     yPos = event.getY();
 
@@ -344,7 +361,7 @@ public  static  boolean isSaved= false;
                                 Toast.makeText(getApplicationContext(), ayah.getAyahContent(), Toast.LENGTH_LONG).show();
                                 //print(i.Aya_num)
                                 //print(i.content)
-                                final int childCount = quran_layout.getChildCount();
+                                childCount = quran_layout.getChildCount();
                                 for (int i = 0; i < childCount; i++) {
                                     View vv = quran_layout.getChildAt(i);
                                     if (vv instanceof MyView) {
@@ -377,12 +394,15 @@ public  static  boolean isSaved= false;
                                 MyView myView = new MyView(QuranActivity.this, (int) x_start, y_start + 100, x_end, y_end + 100);
                                 quran_layout.addView(myView);
 
+                                AyayNumber = ayah.getAyahNumber();
+                                SoraAyahNumber  =ayah.getSoraNumber();
+
 break;
                             }else if((float)(y_end-y_start)/mViewPager.getHeight() > 0.115){
                                 Toast.makeText(getApplicationContext(), ayah.getAyahContent(), Toast.LENGTH_LONG).show();
                                 //print(i.Aya_num)
                                 //print(i.content)
-                                final int childCount = quran_layout.getChildCount();
+                                childCount = quran_layout.getChildCount();
                                 for (int i = 0; i < childCount; i++) {
                                     View vv = quran_layout.getChildAt(i);
                                     if (vv instanceof MyView) {
@@ -391,6 +411,8 @@ break;
                                     }
                                 }
 
+                                AyayNumber  = ayah.getAyahNumber();
+                                SoraAyahNumber  =ayah.getSoraNumber();
                                 //check if multi lines
                                 /*if((float)(y_end-y_start)/mViewPager.getHeight() > 0.115)
                                 {
@@ -470,12 +492,28 @@ break;
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                final int childCount = quran_layout.getChildCount();
+                for (int i = 0; i < childCount; i++) {
+                    View vv = quran_layout.getChildAt(i);
+                    if (vv instanceof MyView) {
+                        quran_layout.removeView(vv);
 
+                    }
+                }
 
             }
 
             @Override
             public void onPageSelected(int position) {
+                final int childCount = quran_layout.getChildCount();
+                for (int i = 0; i < childCount; i++) {
+                    View vv = quran_layout.getChildAt(i);
+                    if (vv instanceof MyView) {
+                        quran_layout.removeView(vv);
+
+                    }
+                }
+
                 //you have position on page
                 index = 603-position;
                 setMp3FileName(603-mViewPager.getCurrentItem());
@@ -567,29 +605,53 @@ break;
     }
     private void setMp3FileName(int page)
     {
- //S_SoraNumber - PageNumber.mp3
-        int sora=  getSoraIndexbyPage(page);
-String soraStr= "";
-        String pageStr= "";
 
-        page++;
-        if(page < 10)
-            pageStr = "00"+page;
-        else if(page < 100)
-            pageStr = "0"+page;
-        else
-            pageStr = ""+page;
+        if(AyayNumber == -1) {
+            //S_SoraNumber - PageNumber.mp3
+            int sora = getSoraIndexbyPage(page);
+            String soraStr = "";
+            String pageStr = "";
 
-        if(sora < 10)
-            soraStr= "00"+sora;
-        else if(sora < 100)
-            soraStr = "0"+sora;
-        else
-            soraStr = ""+sora;
+            page++;
+            if (page < 10)
+                pageStr = "00" + page;
+            else if (page < 100)
+                pageStr = "0" + page;
+            else
+                pageStr = "" + page;
+
+            if (sora < 10)
+                soraStr = "00" + sora;
+            else if (sora < 100)
+                soraStr = "0" + sora;
+            else
+                soraStr = "" + sora;
 
 //http://mojamah.net/appfiles/S_002 - 018.mp3
-        fileName= "S_"+soraStr+" - "+pageStr+".mp3";
+            fileName = "S_" + soraStr + " - " + pageStr + ".mp3";
 
+        }else{
+//S_001-007.mp3
+            String soraStr = "";
+            String AyahStr = "";
+
+            if (AyayNumber < 10)
+                AyahStr = "00" + AyayNumber;
+            else if (AyayNumber < 100)
+                AyahStr = "0" + AyayNumber;
+            else
+                AyahStr = "" + AyayNumber;
+
+
+            if (SoraAyahNumber < 10)
+                soraStr = "00" + SoraAyahNumber;
+            else if (SoraAyahNumber < 100)
+                soraStr = "0" + SoraAyahNumber;
+            else
+                soraStr = "" + SoraAyahNumber;
+//http://mojamah.net/appfiles/S_002 - 018.mp3
+            fileName = "S_" + soraStr + "-" + AyahStr + ".mp3";
+        }
 
 
     }
@@ -1315,15 +1377,25 @@ String soraStr= "";
 
             final DownloadTask downloadTask = new DownloadTask(QuranActivity.this, fileName);
             String _Url = "";
-            if(selectedSound == 0)
-               _Url = "http://mojamah.net/appfiles/AL_Sodes/";
-            if(selectedSound == 1)
-                _Url ="http://mojamah.net/appfiles/AL_Hozife/";
-            if(selectedSound == 2)
-                _Url = "http://mojamah.net/appfiles/Abd_Elbaset/";
-            if(selectedSound == 3)
-                _Url = "http://mojamah.net/appfiles/AL_menshwe/";
-
+            if(AyayNumber == -1) {
+                if (selectedSound == 0)
+                    _Url = "http://mojamah.net/appfiles/AL_Sodes/";
+                if (selectedSound == 1)
+                    _Url = "http://mojamah.net/appfiles/AL_Hozife/";
+                if (selectedSound == 2)
+                    _Url = "http://mojamah.net/appfiles/Abd_Elbaset/";
+                if (selectedSound == 3)
+                    _Url = "http://mojamah.net/appfiles/AL_menshwe/";
+            }else{
+                if (selectedSound == 0)
+                    _Url = "http://mojamah.net/appfiles/AL_Sodes-/";
+                if (selectedSound == 1)
+                    _Url = "http://mojamah.net/appfiles/AL_Hozife-/";
+                if (selectedSound == 2)
+                    _Url = "http://mojamah.net/appfiles/Abd_Elbaset-/";
+                if (selectedSound == 3)
+                    _Url = "http://mojamah.net/appfiles/AL_menshwe-/";
+            }
             downloadTask.execute(_Url + fileName);
 
             mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -1349,14 +1421,27 @@ String soraStr= "";
 
     private boolean checkFileExists() {
         String _fileName ="";
-        if(selectedSound == 0)
-            _fileName = DOWNLOADED_FILE_NAME_AL_Sodes;
-        if(selectedSound == 1)
-            _fileName = DOWNLOADED_FILE_NAME_AL_Hozife;
-        if(selectedSound == 2)
-          _fileName = DOWNLOADED_FILE_NAME_Abd_Elbaset;
-        if(selectedSound == 3)
-            _fileName = DOWNLOADED_FILE_NAME_AL_menshwe;
+        if(AyayNumber == -1)
+        {
+            if(selectedSound == 0)
+                _fileName = DOWNLOADED_FILE_NAME_AL_Sodes_PAGE;
+            if(selectedSound == 1)
+                _fileName = DOWNLOADED_FILE_NAME_AL_Hozife_PAGE;
+            if(selectedSound == 2)
+                _fileName = DOWNLOADED_FILE_NAME_Abd_Elbaset_PAGE;
+            if(selectedSound == 3)
+                _fileName = DOWNLOADED_FILE_NAME_AL_menshwe_PAGE;
+        }else{
+            if(selectedSound == 0)
+                _fileName = DOWNLOADED_FILE_NAME_AL_Sodes_AYAT;
+            if(selectedSound == 1)
+                _fileName = DOWNLOADED_FILE_NAME_AL_Hozife_AYAT;
+            if(selectedSound == 2)
+                _fileName = DOWNLOADED_FILE_NAME_Abd_Elbaset_AYAT;
+            if(selectedSound == 3)
+                _fileName = DOWNLOADED_FILE_NAME_AL_menshwe_AYAT;
+        }
+
 
         File root = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + _fileName);
         File file = new File(root + File.separator + fileName);
@@ -1401,15 +1486,25 @@ String soraStr= "";
                 // download the file
                 input = connection.getInputStream();
                 String _fileName ="";
-                if(selectedSound == 0)
-                    _fileName = DOWNLOADED_FILE_NAME_AL_Sodes;
-                if(selectedSound == 1)
-                    _fileName = DOWNLOADED_FILE_NAME_AL_Hozife;
-                if(selectedSound == 2)
-                    _fileName = DOWNLOADED_FILE_NAME_Abd_Elbaset;
-                if(selectedSound == 3)
-                    _fileName = DOWNLOADED_FILE_NAME_AL_menshwe;
-
+                if(AyayNumber == -1) {
+                    if (selectedSound == 0)
+                        _fileName = DOWNLOADED_FILE_NAME_AL_Sodes_PAGE;
+                    if (selectedSound == 1)
+                        _fileName = DOWNLOADED_FILE_NAME_AL_Hozife_PAGE;
+                    if (selectedSound == 2)
+                        _fileName = DOWNLOADED_FILE_NAME_Abd_Elbaset_PAGE;
+                    if (selectedSound == 3)
+                        _fileName = DOWNLOADED_FILE_NAME_AL_menshwe_PAGE;
+                }else{
+                    if (selectedSound == 0)
+                        _fileName = DOWNLOADED_FILE_NAME_AL_Sodes_AYAT;
+                    if (selectedSound == 1)
+                        _fileName = DOWNLOADED_FILE_NAME_AL_Hozife_AYAT;
+                    if (selectedSound == 2)
+                        _fileName = DOWNLOADED_FILE_NAME_Abd_Elbaset_AYAT;
+                    if (selectedSound == 3)
+                        _fileName = DOWNLOADED_FILE_NAME_AL_menshwe_AYAT;
+                }
                 File root = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + _fileName);
                 root.mkdirs();
 
@@ -1512,14 +1607,28 @@ String soraStr= "";
 
     private Item loadDownloadedItem() {
         String _fileName ="";
-        if(selectedSound == 0)
-            _fileName = DOWNLOADED_FILE_NAME_AL_Sodes;
-        if(selectedSound == 1)
-            _fileName = DOWNLOADED_FILE_NAME_AL_Hozife;
-        if(selectedSound == 2)
-            _fileName = DOWNLOADED_FILE_NAME_Abd_Elbaset;
-        if(selectedSound == 3)
-            _fileName = DOWNLOADED_FILE_NAME_AL_menshwe;
+
+        if(AyayNumber == -1)
+        {
+            if(selectedSound == 0)
+                _fileName = DOWNLOADED_FILE_NAME_AL_Sodes_PAGE;
+            if(selectedSound == 1)
+                _fileName = DOWNLOADED_FILE_NAME_AL_Hozife_PAGE;
+            if(selectedSound == 2)
+                _fileName = DOWNLOADED_FILE_NAME_Abd_Elbaset_PAGE;
+            if(selectedSound == 3)
+                _fileName = DOWNLOADED_FILE_NAME_AL_menshwe_PAGE;
+        }else{
+            if(selectedSound == 0)
+                _fileName = DOWNLOADED_FILE_NAME_AL_Sodes_AYAT;
+            if(selectedSound == 1)
+                _fileName = DOWNLOADED_FILE_NAME_AL_Hozife_AYAT;
+            if(selectedSound == 2)
+                _fileName = DOWNLOADED_FILE_NAME_Abd_Elbaset_AYAT;
+            if(selectedSound == 3)
+                _fileName = DOWNLOADED_FILE_NAME_AL_menshwe_AYAT;
+        }
+
         File root = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + _fileName);
         File file = new File(root + File.separator + fileName);
         MediaMetadataRetriever md = new MediaMetadataRetriever();
@@ -1536,7 +1645,6 @@ String soraStr= "";
             Item item = new Item(url, title, duration);
             this.item =  new Item(url, title, duration);
             return item;
-
         }
     }
 

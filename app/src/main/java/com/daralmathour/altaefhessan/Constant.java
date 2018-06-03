@@ -7,10 +7,14 @@ import java.util.ArrayList;
  */
 
 public class Constant {
-    public static final String DOWNLOADED_FILE_NAME_AL_Sodes="QuranKarim_AL_Sodes";
-    public static final String DOWNLOADED_FILE_NAME_AL_Hozife="QuranKarim_AL_Hozife";
-    public static final String DOWNLOADED_FILE_NAME_AL_menshwe="QuranKarim_AL_menshwe";
-    public static final String DOWNLOADED_FILE_NAME_Abd_Elbaset="QuranKarim_Abd_Elbaset";
+    public static final String DOWNLOADED_FILE_NAME_AL_Sodes_PAGE="QuranKarim_AL_Sodes_PAGE";
+    public static final String DOWNLOADED_FILE_NAME_AL_Sodes_AYAT="QuranKarim_AL_Sodes_AYAT";
+    public static final String DOWNLOADED_FILE_NAME_AL_Hozife_PAGE="QuranKarim_AL_Hozife_PAGE";
+    public static final String DOWNLOADED_FILE_NAME_AL_Hozife_AYAT="QuranKarim_AL_Hozife_AYAT";
+    public static final String DOWNLOADED_FILE_NAME_AL_menshwe_PAGE="QuranKarim_AL_menshwe_PAGE";
+    public static final String DOWNLOADED_FILE_NAME_AL_menshwe_AYAT="QuranKarim_AL_menshwe_AYAT";
+    public static final String DOWNLOADED_FILE_NAME_Abd_Elbaset_PAGE="QuranKarim_Abd_Elbaset_PAGE";
+    public static final String DOWNLOADED_FILE_NAME_Abd_Elbaset_AYAT="QuranKarim_Abd_Elbaset_AYAT";
 
     public  ArrayList<String> TafseerList;
     public  Constant()
