@@ -51,7 +51,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void openSepha(View view) {
-        startActivity(new Intent(HomeActivity.this,SebhaActivity.class));
+        startActivity(new Intent(HomeActivity.this,AzkarMainActivity.class));
 
     }
 
@@ -87,7 +87,6 @@ public class HomeActivity extends AppCompatActivity {
 
     public void openMoqtatafaat(View view) {
         startActivity(new Intent(HomeActivity.this,MoqtatafatActivity.class));
-
     }
 
     public void openTwaselMaana(View view) {

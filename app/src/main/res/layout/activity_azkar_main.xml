@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.daralmathour.altaefhessan.Activities.AzkarMainActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:id="@+id/azkarSabah"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/icon1"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/azkaricon"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_toLeftOf="@+id/icon1"
+                    android:textColor="#056839"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                    android:text="أذكار الصباح"
+                    />
+
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:padding="3dp"
+                android:layout_marginTop="3dp"
+                android:background="#056839" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:id="@+id/azkarMasa"
+                android:layout_marginTop="3dp"
+
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/icon2"
+
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/azkaricon"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/icon2"
+                    android:layout_centerInParent="true"
+                    android:textColor="#056839"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                    android:text="أذكار المساء"
+                    />
+
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_marginTop="3dp"
+
+                android:padding="3dp"
+
+                android:background="#056839" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:id="@+id/azkarNoom"
+                android:layout_marginTop="3dp"
+
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/icon3"
+
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/azkaricon"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/icon3"
+                    android:layout_centerInParent="true"
+                    android:textColor="#056839"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                    android:text="أذكار النوم"
+                    />
+
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_marginTop="3dp"
+
+                android:padding="3dp"
+                android:background="#056839" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:id="@+id/azkarSafar"
+                android:layout_marginTop="3dp"
+
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/icon4"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/azkaricon"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_toLeftOf="@id/icon4"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textColor="#056839"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                    android:text="أذكار السفر"
+                    />
+
+            </RelativeLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

@@ -27,14 +27,14 @@
 
     <string name="about_title_text">\nAbout Qibla Compass</string>
 
-    <string name="about_text"><br/>
+    <string name="about_text"><br />
 	If you don\'t know the direction of Qibla in your current location, just use this application.
-	<br/><br/>
+	<br /><br />
     All rights reserved by <font fgcolor="#ffffffff"><b>Iranian Congenial Mobile Co.</b></font>. The direction of the Qibla is computed using GPS and the direction of the north reported by the compass.
-   <br/><br/>
-    Visit <font fgcolor="#ff749c00"><a href="http://farsitel.com/fa/" fgcolor="749C00FF">http://farsitel.com/</a></font> to learn more about
+   <br /><br />
+    Visit <font fgcolor="#ff749c00"><a fgcolor="749C00FF" href="http://farsitel.com/fa/">http://farsitel.com/</a></font> to learn more about
    <font fgcolor="#ffffffff"><b>FarsiTel</b></font>.
-   <br/><br/>
+   <br /><br />
    </string>
 
     <string name="prefs_menu_title">Settings</string>

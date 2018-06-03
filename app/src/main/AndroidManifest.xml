@@ -9,7 +9,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -23,7 +22,9 @@
         android:roundIcon="@drawable/companylogo"
         android:supportsRtl="false"
         android:theme="@style/AppTheme">
-        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
         <activity
             android:name=".Activities.SplashActivity"
@@ -39,45 +40,42 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activities.FehrestActivity" />
-        <activity android:name=".Activities.MainOActivity">
-
-        </activity>
-        <activity android:name=".Activities.userPreference"></activity>
+        <activity android:name=".Activities.MainOActivity" />
+        <activity android:name=".Activities.userPreference" />
         <activity android:name=".Activities.QuranActivity" />
         <activity android:name=".Activities.SebhaActivity" />
         <activity android:name=".Activities.EtgahElqeblaActivity" />
         <activity android:name=".Activities.MoqtatafatActivity" />
-        <activity android:name=".Activities.TawasselMaanaActivity"></activity>
-
-
+        <activity android:name=".Activities.TawasselMaanaActivity" />
         <activity
             android:name=".Activities.MawaqeetElsalahActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activities.StopAthanActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
             android:taskAffinity="" />
+
         <service
             android:name=".PrayerAlarm.AthanService"
             android:enabled="true"
             android:exported="false" />
-
         <service android:name=".PrayerAlarm.SampleSchedulingService" />
+
         <receiver android:name=".PrayerAlarm.SampleAlarmReceiver" />
         <receiver
             android:name=".PrayerAlarm.SampleBootReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.TIME_SET" />
                 <action android:name="android.intent.action.TIMEZONE_CHANGED" />
-
             </intent-filter>
         </receiver>
 
+        <activity android:name=".Activities.AzkarMainActivity" />
+        <activity android:name=".Activities.AzkarDetailsActivity"></activity>
     </application>
 
 </manifest>

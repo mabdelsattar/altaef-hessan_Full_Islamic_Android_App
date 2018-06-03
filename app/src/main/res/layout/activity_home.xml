@@ -178,21 +178,21 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:visibility="invisible"
+                    android:visibility="visible"
                     android:orientation="vertical"
                     android:onClick="openSepha"
                     android:layout_height="wrap_content">
                     <ImageView
                         android:layout_width="125dp"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/el_sebha"
+                        android:src="@drawable/azkaricon"
                         android:layout_gravity="center"
                         android:scaleType="fitXY"
                         android:adjustViewBounds="true"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="السبحة"
+                        android:text="الأذكار"
                         android:textSize="18sp"
                         android:textColor="#ffffff"
                         android:textStyle="bold"
