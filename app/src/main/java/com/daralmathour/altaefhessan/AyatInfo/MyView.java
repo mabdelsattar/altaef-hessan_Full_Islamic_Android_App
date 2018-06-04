@@ -20,7 +20,7 @@ public class MyView extends View {
 
     public MyView(Context context,int x_start,int y_start,int x_end,int y_end) {
         super(context);
-        this.x_start= y_end;
+        this.x_start= x_start;
         this.y_start= y_start;
         this.x_end= x_end;
         this.y_end= y_end;

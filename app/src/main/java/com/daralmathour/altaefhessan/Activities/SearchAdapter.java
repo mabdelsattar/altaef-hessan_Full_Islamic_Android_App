@@ -49,7 +49,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
     public SearchAdapter(List<SearchViewModel> searchList, Context context) {
         this.searchList = searchList;
         this._context = context;
-        this.searchListFilter = searchList;
+        this.searchListFilter = new ArrayList<>();
     }
 
     @Override
@@ -101,9 +101,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         final SearchViewModel search = searchListFilter.get(position);
         //searchPageNumber, searchSoraName,AyahNumber,AyahContent
-        holder.searchPageNumber.setText("صفحة: " +search.getPageNumber());
+        holder.searchPageNumber.setText(search.getPageNumber());
         holder.searchSoraName.setText(search.getSoraName());
-        holder.AyahNumber.setText("ايه: " +search.getAyahNumber());
+        holder.AyahNumber.setText(search.getAyahNumber());
         holder.AyahContent.setText(search.getContent());
 
         holder.mainLayout.setOnClickListener(new View.OnClickListener() {

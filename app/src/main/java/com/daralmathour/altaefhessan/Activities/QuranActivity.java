@@ -380,34 +380,44 @@ public  static  boolean isSaved= false;
                                 }
 
                                 //check if multi lines
-                                /*if((float)(y_end-y_start)/mViewPager.getHeight() > 0.115)
+                                if((float)(y_end-y_start)/mViewPager.getHeight() > 0.08)
                                 {
-                                    int numberofRects= (int)((float)(y_end-y_start)/mViewPager.getHeight()/0.115);
+                                    int numberofRects= (int)((float)(y_end-y_start)/mViewPager.getHeight()/0.065);
                                     numberofRects++;
-                                    if(numberofRects == 2)
+
+                                    int rectHeight= (int)((float)mViewPager.getHeight()*0.065);
+                                    for(int i=0 ; i<numberofRects ; i++)
                                     {
-                                        MyView myView = new MyView(QuranActivity.this, (int) 0, y_start + 100, x_end, (int)((float)mViewPager.getHeight()*0.115) + 100+y_start);
-                                        quran_layout.addView(myView);
-
-                                        myView = new MyView(QuranActivity.this, (int) x_end, (int)((float)mViewPager.getHeight()*0.115) + 100+y_start, mViewPager.getWidth()-1, (int)((float)mViewPager.getHeight()*0.115) + 100+y_start);
-                                        quran_layout.addView(myView);
-
-                                    }else{
+                                        if(i == 0){
+                                            MyView myView = new MyView(QuranActivity.this, (int) 0, y_start + 100, x_start , (int)100+y_start+rectHeight);
+                                            quran_layout.addView(myView);
+                                        }
+                                        else if(i == numberofRects - 1)
+                                        {
+                                            MyView myView = new MyView(QuranActivity.this, (int) x_end, (i*rectHeight)+y_start + 100, mViewPager.getWidth(), (int)100+y_start+rectHeight+(i*rectHeight));
+                                            quran_layout.addView(myView);
+                                        }else{
+                                            MyView myView = new MyView(QuranActivity.this, (int) 0, (i*rectHeight)+y_start + 100, mViewPager.getWidth(), (int)100+y_start+rectHeight+(i*rectHeight));
+                                            quran_layout.addView(myView);
+                                        }
 
                                     }
+
 
                                 }else{
                                     MyView myView = new MyView(QuranActivity.this, (int) x_start, y_start + 100, x_end, y_end + 100);
                                     quran_layout.addView(myView);
-                                }*/
-                                MyView myView = new MyView(QuranActivity.this, (int) x_start, y_start + 100, x_end, y_end + 100);
-                                quran_layout.addView(myView);
+                                }
+
+
+                                //MyView myView = new MyView(QuranActivity.this, (int) x_start, y_start + 100, x_end, y_end + 100);
+                                //quran_layout.addView(myView);
 
                                 AyayNumber = ayah.getAyahNumber();
                                 SoraAyahNumber  =ayah.getSoraNumber();
 
 break;
-                            }else if((float)(y_end-y_start)/mViewPager.getHeight() > 0.115){
+                            }else if((float)(y_end-y_start)/mViewPager.getHeight() > 0.065){
                                 Toast.makeText(getApplicationContext(), ayah.getAyahContent(), Toast.LENGTH_LONG).show();
                                 //print(i.Aya_num)
                                 //print(i.content)
@@ -423,28 +433,34 @@ break;
                                 AyayNumber  = ayah.getAyahNumber();
                                 SoraAyahNumber  =ayah.getSoraNumber();
                                 //check if multi lines
-                                /*if((float)(y_end-y_start)/mViewPager.getHeight() > 0.115)
+                                if((float)(y_end-y_start)/mViewPager.getHeight() > 0.115)
                                 {
-                                    int numberofRects= (int)((float)(y_end-y_start)/mViewPager.getHeight()/0.115);
+                                    int numberofRects= (int)((float)(y_end-y_start)/mViewPager.getHeight()/0.065);
                                     numberofRects++;
-                                    if(numberofRects == 2)
+
+                                    int rectHeight= (int)((float)mViewPager.getHeight()*0.065);
+                                    for(int i=0 ; i<numberofRects ; i++)
                                     {
-                                        MyView myView = new MyView(QuranActivity.this, (int) 0, y_start + 100, x_start, (int)((float)mViewPager.getHeight()*0.115) + 100+y_start);
-                                        quran_layout.addView(myView);
-
-                                        myView = new MyView(QuranActivity.this, (int) x_end, (int)((float)mViewPager.getHeight()*0.115) + 100+y_start, mViewPager.getWidth()-1, (int)((float)mViewPager.getHeight()*0.115) + 100+y_start);
-                                        quran_layout.addView(myView);
-
-                                    }else{
+                                        if(i == 0){
+                                            MyView myView = new MyView(QuranActivity.this, (int) 0, y_start + 100, x_start , (int)100+y_start+rectHeight);
+                                            quran_layout.addView(myView);
+                                        }
+                                        else if(i == numberofRects - 1)
+                                        {
+                                            MyView myView = new MyView(QuranActivity.this, (int) x_end, (i*rectHeight)+y_start + 100, mViewPager.getWidth(), (int)100+y_start+rectHeight+(i*rectHeight));
+                                            quran_layout.addView(myView);
+                                        }else{
+                                            MyView myView = new MyView(QuranActivity.this, (int) 0, (i*rectHeight)+y_start + 100, mViewPager.getWidth(), (int)100+y_start+rectHeight+(i*rectHeight));
+                                            quran_layout.addView(myView);
+                                        }
 
                                     }
+
 
                                 }else{
                                     MyView myView = new MyView(QuranActivity.this, (int) x_start, y_start + 100, x_end, y_end + 100);
                                     quran_layout.addView(myView);
-                                }*/
-                                MyView myView = new MyView(QuranActivity.this, (int) x_start, y_start + 100, x_end, y_end + 100);
-                                quran_layout.addView(myView);
+                                }
 break;
                             }
                             //CGRect(x: x_end, y:y_start+Int((topBar.frame.size.height + bottomBar.frame.size.height))
