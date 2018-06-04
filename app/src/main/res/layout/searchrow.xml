@@ -18,6 +18,8 @@
         android:layout_height="wrap_content"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
         android:text="صفحة: 8"
+        android:gravity="right"
+        android:layout_gravity="right"
         android:textColor="#FFF"
         />
 
@@ -28,6 +30,8 @@
         android:layout_height="wrap_content"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
         android:text="سورة الاحزاب"
+        android:gravity="right"
+        android:layout_gravity="right"
         android:textColor="#FFF"
         />
 
@@ -38,6 +42,8 @@
         android:layout_height="wrap_content"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
         android:text="الايه: 200"
+        android:gravity="right"
+        android:layout_gravity="right"
         android:textColor="#FFF"
         />
 
@@ -48,6 +54,8 @@
         android:layout_height="wrap_content"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
         android:text="لعل الله يحث بعد ذلك امرا"
+         android:gravity="right"
+         android:layout_gravity="right"
         android:textColor="#FFF"
         />
 

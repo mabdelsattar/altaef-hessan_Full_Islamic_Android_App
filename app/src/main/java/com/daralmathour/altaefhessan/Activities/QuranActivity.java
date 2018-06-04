@@ -366,10 +366,10 @@ public  static  boolean isSaved= false;
 
                             //Validate X position --one line
                             if(xPos > x_end && xPos <= x_start) {
-
                                 Toast.makeText(getApplicationContext(), ayah.getAyahContent(), Toast.LENGTH_LONG).show();
                                 //print(i.Aya_num)
                                 //print(i.content)
+
                                 childCount = quran_layout.getChildCount();
                                 for (int i = 0; i < childCount; i++) {
                                     View vv = quran_layout.getChildAt(i);
