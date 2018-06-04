@@ -653,7 +653,6 @@ break;
             fileName = "S_" + soraStr + "-" + AyahStr + ".mp3";
         }
 
-
     }
 
     /*

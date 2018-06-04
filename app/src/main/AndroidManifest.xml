@@ -75,7 +75,8 @@
         </receiver>
 
         <activity android:name=".Activities.AzkarMainActivity" />
-        <activity android:name=".Activities.AzkarDetailsActivity"></activity>
+        <activity android:name=".Activities.AzkarDetailsActivity" />
+        <activity android:name=".Activities.SearchQuranActivity"></activity>
     </application>
 
 </manifest>
