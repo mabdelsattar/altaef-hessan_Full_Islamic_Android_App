@@ -49,12 +49,13 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
     public SearchAdapter(List<SearchViewModel> searchList, Context context) {
         this.searchList = searchList;
         this._context = context;
+        this.searchListFilter = searchList;
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.azarrow, parent, false);
+                .inflate(R.layout.searchrow, parent, false);
 
         return new MyViewHolder(itemView);
     }
@@ -118,6 +119,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
 
     @Override
     public int getItemCount() {
-        return searchList.size();
+        return searchListFilter.size();
     }
 }

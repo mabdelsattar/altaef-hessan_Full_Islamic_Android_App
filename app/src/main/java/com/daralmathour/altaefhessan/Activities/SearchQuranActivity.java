@@ -11,6 +11,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.widget.EditText;
 
+import com.daralmathour.altaefhessan.AppConfigurations;
+import com.daralmathour.altaefhessan.AyatInfo.AllAyatInforamation;
+import com.daralmathour.altaefhessan.AyatInfo.AyahInformation;
 import com.daralmathour.altaefhessan.R;
 
 import java.util.ArrayList;
@@ -31,6 +34,23 @@ public class SearchQuranActivity extends AppCompatActivity {
         //Build your Model
 
         data = new ArrayList<SearchViewModel>();
+
+        AllAyatInforamation allAyatInforamation=null;
+        allAyatInforamation = new AllAyatInforamation();
+        AppConfigurations appConfigurations =new AppConfigurations();
+
+
+        for(int i= 0 ; i< allAyatInforamation.AllQuranPages.size() ; i++)
+        {
+            for(int k=0;k<allAyatInforamation.AllQuranPages.get(i).pageAyat.size();k++)
+            {
+                AyahInformation ayah= allAyatInforamation.AllQuranPages.get(i).pageAyat.get(k);
+                data.add(new SearchViewModel(ayah.ayahNumber+"",ayah.soraNumber+"",ayah.ayahContent,appConfigurations.allSoar.get(ayah.soraNumber-1).Name));
+            }
+        }
+
+
+
         adapter = new SearchAdapter(data,this);
         requestrecycleview = (RecyclerView) findViewById(R.id.recycler_view);
 
@@ -46,9 +66,10 @@ public class SearchQuranActivity extends AppCompatActivity {
 
         SearchView searchView = (SearchView) findViewById(R.id.search);
         EditText searchEditText = (EditText) searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
-        searchEditText.setTextColor(Color.BLACK);
-        searchEditText.setHintTextColor(Color.GRAY);
+        //searchEditText.setTextColor(Color.BLACK);
+        //searchEditText.setHintTextColor(Color.GRAY);
         searchEditText.setActivated(true);
+        searchView.setFocusable(true);
 
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

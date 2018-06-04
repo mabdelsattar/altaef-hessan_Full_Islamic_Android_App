@@ -46,12 +46,7 @@
         android:textColor="#FFF"
         />
 
-    <View
-          android:background="#ffffff"
-          android:layout_marginTop="2dp"
-          android:layout_below="@+id/azkarRepeat"
-          android:layout_width = "match_parent"
-          android:layout_height="2dp"/>
+
 
 
 </LinearLayout>

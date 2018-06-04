@@ -127,10 +127,19 @@ public  static  boolean isSaved= false;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quran);
 
+
+     ImageView btnSearch = (ImageView)findViewById(R.id.btnSearch);
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(QuranActivity.this,SearchQuranActivity.class));
+            }
+        });
         appConfigurations =new AppConfigurations();
         quran_layout = (RelativeLayout)findViewById(R.id.quran_layout);
         soraName = (TextView) findViewById(R.id.soraName);
         songerSpinner = (Spinner) findViewById(R.id.songersSpinner);
+
         Tafseerbutton =(ImageView) findViewById(R.id.btnTafseer);
         Tafseerbutton.setOnClickListener(new View.OnClickListener() {
             @Override
