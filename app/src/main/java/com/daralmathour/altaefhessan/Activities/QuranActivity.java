@@ -336,7 +336,8 @@ public  static  boolean isSaved= false;
                         View vv = quran_layout.getChildAt(i);
                         if (vv instanceof MyView) {
                             quran_layout.removeView(vv);
-
+i--;
+                            childCount--;
                         }
                     }
 
@@ -375,6 +376,8 @@ public  static  boolean isSaved= false;
                                     View vv = quran_layout.getChildAt(i);
                                     if (vv instanceof MyView) {
                                         quran_layout.removeView(vv);
+                                        i--;
+                                        childCount--;
 
                                     }
                                 }
@@ -415,8 +418,10 @@ public  static  boolean isSaved= false;
 
                                 AyayNumber = ayah.getAyahNumber();
                                 SoraAyahNumber  =ayah.getSoraNumber();
+                                player = null;
 
-break;
+
+                                break;
                             }else if((float)(y_end-y_start)/mViewPager.getHeight() > 0.065){
                                 Toast.makeText(getApplicationContext(), ayah.getAyahContent(), Toast.LENGTH_LONG).show();
                                 //print(i.Aya_num)
@@ -426,14 +431,17 @@ break;
                                     View vv = quran_layout.getChildAt(i);
                                     if (vv instanceof MyView) {
                                         quran_layout.removeView(vv);
-
+i--;
+                                        childCount--;
                                     }
                                 }
 
                                 AyayNumber  = ayah.getAyahNumber();
                                 SoraAyahNumber  =ayah.getSoraNumber();
+                                player = null;
+
                                 //check if multi lines
-                                if((float)(y_end-y_start)/mViewPager.getHeight() > 0.115)
+                                if((float)(y_end-y_start)/mViewPager.getHeight() > 0.08)
                                 {
                                     int numberofRects= (int)((float)(y_end-y_start)/mViewPager.getHeight()/0.065);
                                     numberofRects++;
@@ -517,27 +525,35 @@ break;
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                final int childCount = quran_layout.getChildCount();
+                int childCount = quran_layout.getChildCount();
                 for (int i = 0; i < childCount; i++) {
                     View vv = quran_layout.getChildAt(i);
                     if (vv instanceof MyView) {
                         quran_layout.removeView(vv);
-
+                        i--;
+                        childCount--;
                     }
                 }
+                AyayNumber = -1;
+
 
             }
 
             @Override
             public void onPageSelected(int position) {
-                final int childCount = quran_layout.getChildCount();
+                int childCount = quran_layout.getChildCount();
                 for (int i = 0; i < childCount; i++) {
                     View vv = quran_layout.getChildAt(i);
                     if (vv instanceof MyView) {
                         quran_layout.removeView(vv);
-
+                        i--;
+                        childCount--;
                     }
                 }
+
+                AyayNumber = -1;
+
+player = null;
 
                 //you have position on page
                 index = 603-position;
