@@ -352,9 +352,12 @@ i--;
 
                     PageInformation pageInformation = allAyatInforamation.AllQuranPages.get(603-mViewPager.getCurrentItem());
                     ArrayList<AyahInformation> ayahInformations = pageInformation.getPageAyat();
+
+                 //   int tempindex=-1;
                     for (AyahInformation ayah :
                             ayahInformations) {
 
+                       // tempindex++;
                         int y_start = (int) (((int) (mViewPager.getHeight()) * ayah.yStart) / 2024);
                         int y_end = (int) (((int) (mViewPager.getHeight()) * ayah.yEnd) / 2024);
                         int x_start = (int) (((int) (mViewPager.getWidth()) * ayah.xStart) / 1536);
@@ -418,11 +421,30 @@ i--;
 
                                 AyayNumber = ayah.getAyahNumber();
                                 SoraAyahNumber  =ayah.getSoraNumber();
-                                player = null;
+
+                                if(player != null)
+                                {
+player.pause();
+                                    isPlaying= false;
+                                    player = null;
+
+                                }
 
 
                                 break;
                             }else if((float)(y_end-y_start)/mViewPager.getHeight() > 0.065){
+
+                              /*  if(xPos < x_end)
+                                {
+                                    ayah = ayahInformations.get(tempindex+1);
+                                    tempindex++;
+                                    y_start = (int) (((int) (mViewPager.getHeight()) * ayah.yStart) / 2024);
+                                    y_end = (int) (((int) (mViewPager.getHeight()) * ayah.yEnd) / 2024);
+                                    x_start = (int) (((int) (mViewPager.getWidth()) * ayah.xStart) / 1536);
+                                    x_end = (int) (((int) (mViewPager.getWidth()) * ayah.xEnd) / 1536);
+
+                                }*/
+
                                 Toast.makeText(getApplicationContext(), ayah.getAyahContent(), Toast.LENGTH_LONG).show();
                                 //print(i.Aya_num)
                                 //print(i.content)
@@ -438,7 +460,13 @@ i--;
 
                                 AyayNumber  = ayah.getAyahNumber();
                                 SoraAyahNumber  =ayah.getSoraNumber();
-                                player = null;
+                                if(player != null)
+                                {
+                                    player.pause();
+                                    isPlaying= false;
+                                    player = null;
+
+                                }
 
                                 //check if multi lines
                                 if((float)(y_end-y_start)/mViewPager.getHeight() > 0.08)
@@ -553,7 +581,7 @@ break;
 
                 AyayNumber = -1;
 
-player = null;
+
 
                 //you have position on page
                 index = 603-position;
@@ -573,6 +601,7 @@ player = null;
                 btnPlay.setImageResource(R.drawable.ic_play_arrow_white_24dp);
                 if (isPlaying)
                 {
+                    if(player != null)
                     player.pause();
                     player=null;
                     isPlaying=false;
@@ -617,28 +646,6 @@ player = null;
                 }
 
 
-//                if (!mediaPlayer.isPlaying()) {
-//                    btnPlay.setImageResource(R.drawable.ic_pause_circle_outline_white_24dp);
-//                } else {
-//                    btnPlay.setImageResource(R.drawable.ic_play_arrow_white_24dp);
-//                }
-//
-//
-//                try {
-//                    mediaPlayer.setDataSource("http://www.quranpagesmp3.com/MP3/pgs/002-002.mp3"); // setup song from https://www.hrupin.com/wp-content/uploads/mp3/testsong_20_sec.mp3 URL to mediaplayer data source
-//                    mediaPlayer.prepare(); // you must call this method after setup the datasource in setDataSource method. After calling prepare() the instance of MediaPlayer starts load data from URL to internal buffer.
-//                    mediaPlayer.setLooping(true);//configuration
-//
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//
-//                if (!mediaPlayer.isPlaying()) {
-//                    mediaPlayer.start();
-//
-//                } else {
-//                    mediaPlayer.pause();
-//                }
 
             }
         });
@@ -1394,7 +1401,15 @@ player = null;
                 public void onCompletion(MediaPlayer mp) {
                     isPlaying = false;
                     btnPlay.setImageResource(R.drawable.ic_play_arrow_white_24dp);
+                    if(player != null && isPlaying == true)
+                        player.pause();
                     player=null;
+                    if(mViewPager.getCurrentItem() != 0 && AyayNumber ==-1) {
+                        mViewPager.setCurrentItem(mViewPager.getCurrentItem() - 1);
+                        setMp3FileName(603 - mViewPager.getCurrentItem());
+                        checkPer();
+                    }
+
                 }
             });
 

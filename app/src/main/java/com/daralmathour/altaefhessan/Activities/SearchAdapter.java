@@ -112,6 +112,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
                 Intent intent = new Intent();
                 intent.putExtra("Page",search.getPageNumber());
                 intent.putExtra("AyahNumber",search.getAyahNumber());
+                intent.putExtra("xStart",search.getAyahNumber());
+                intent.putExtra("xEnd",search.getAyahNumber());
+                intent.putExtra("yStart",search.getAyahNumber());
+                intent.putExtra("yEnd",search.getAyahNumber());
                 _context.startActivity(intent);
             }
         });
