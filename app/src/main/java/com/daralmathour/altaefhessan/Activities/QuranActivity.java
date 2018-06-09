@@ -178,6 +178,7 @@ public  static  boolean isSaved= false;
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         savepos = prefs.getInt("saveindex", -1);
+        savepos = 603- savepos;
 
 
 
@@ -218,7 +219,7 @@ public  static  boolean isSaved= false;
                 if(!isSaved) {
                     btnSaveBookMark.setImageResource(R.drawable.bookmark_marked);
                     isSaved = true;
-                    savepos = index;
+                    savepos = mViewPager.getCurrentItem();
                     //save index to shared preference
                     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                     SharedPreferences.Editor editor = prefs.edit();
@@ -371,7 +372,7 @@ public  static  boolean isSaved= false;
 
                                 break;
                             }else if((float)(y_end-y_start)/mViewPager.getHeight() > 0.065){
-                                int rectHeight= (int)((float)mViewPager.getHeight()*0.08);
+                                int rectoHeight= (int)((float)mViewPager.getHeight()*0.065);
 
 
                                 if(tempindex != ayahInformations.size()-1)
@@ -379,7 +380,7 @@ public  static  boolean isSaved= false;
 
                                     int next_y_start = (int) (((int) (mViewPager.getHeight()) * ayahInformations.get(tempindex+1).yStart) / 2024);
 
-                                    if(xPos < x_end && y_end-next_y_start < rectHeight)
+                                    if(xPos < x_end && y_end-next_y_start < rectoHeight && y_end-yPos <rectoHeight)
                                         continue;
                                 }
 
@@ -424,7 +425,7 @@ public  static  boolean isSaved= false;
                                     int numberofRects= (int)((float)(y_end-y_start)/mViewPager.getHeight()/0.065);
                                     numberofRects++;
 
-                                    rectHeight= (int)((float)mViewPager.getHeight()*0.065);
+                                    int  rectHeight= (int)((float)mViewPager.getHeight()*0.065);
                                     for(int i=0 ; i<numberofRects ; i++)
                                     {
                                         if(i == 0){
@@ -503,6 +504,7 @@ public  static  boolean isSaved= false;
                 index = page;
                 SoraName = getIntent().getExtras().getString("SoraName");
                 index = 603 - index;
+                ///savepos = 603 - savepos;
                 if (savepos == index) {
                     btnSaveBookMark.setImageResource(R.drawable.bookmark_marked);
                     isSaved = true;
@@ -594,8 +596,9 @@ public  static  boolean isSaved= false;
                 if (!fromHome) {
                     SoraName = appConfigurations.allSoar.get(getIntent().getExtras().getInt("position", 0)).Name;
                     index = 603 - index;
+                  //  savepos = 603 - savepos;
                     //currentPos = index;
-                    if (savepos == index) {
+                    if (603-savepos == index) {
                         btnSaveBookMark.setImageResource(R.drawable.bookmark_marked);
                         isSaved = true;
                     }
@@ -669,7 +672,7 @@ public  static  boolean isSaved= false;
 
 
         if(fromHome)
-            mViewPager.setCurrentItem(savepos);
+            mViewPager.setCurrentItem(603-savepos);
         else
             mViewPager.setCurrentItem(index);
 
@@ -716,7 +719,7 @@ public  static  boolean isSaved= false;
                 //you have position on page
                 index = 603-position;
                 setMp3FileName(603-mViewPager.getCurrentItem());
-                if(savepos == position) {
+                if(603-savepos == position) {
                     btnSaveBookMark.setImageResource(R.drawable.bookmark_marked);
                     isSaved = true;
                 }else{

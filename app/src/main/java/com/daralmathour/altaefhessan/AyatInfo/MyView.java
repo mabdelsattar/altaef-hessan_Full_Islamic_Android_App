@@ -39,7 +39,7 @@ public class MyView extends View {
 
     private void init(){
         paint = new Paint();
-        paint.setColor(Color.parseColor("#BF238c2a"));
+        paint.setColor(Color.parseColor("#59238c2a"));
         paint.setStrokeWidth(10);
         paint.setStyle(Paint.Style.FILL);
 
