@@ -45,7 +45,7 @@ public class SearchQuranActivity extends AppCompatActivity {
             for(int k=0;k<allAyatInforamation.AllQuranPages.get(i).pageAyat.size();k++)
             {
                 AyahInformation ayah= allAyatInforamation.AllQuranPages.get(i).pageAyat.get(k);
-                data.add(new SearchViewModel(ayah.ayahNumber+"",ayah.soraNumber+"",ayah.ayahContent,appConfigurations.allSoar.get(ayah.soraNumber-1).Name));
+                data.add(new SearchViewModel(ayah.ayahNumber+"",(i+1)+"",ayah.ayahContent,appConfigurations.allSoar.get(ayah.soraNumber-1).Name));
             }
         }
 

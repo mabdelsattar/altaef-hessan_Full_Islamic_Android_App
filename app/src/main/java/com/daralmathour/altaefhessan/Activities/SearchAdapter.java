@@ -109,13 +109,11 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
         holder.mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
+                Intent intent = new Intent(_context,QuranActivity.class);
                 intent.putExtra("Page",search.getPageNumber());
                 intent.putExtra("AyahNumber",search.getAyahNumber());
-                intent.putExtra("xStart",search.getAyahNumber());
-                intent.putExtra("xEnd",search.getAyahNumber());
-                intent.putExtra("yStart",search.getAyahNumber());
-                intent.putExtra("yEnd",search.getAyahNumber());
+                intent.putExtra("fromSearch",true);
+                intent.putExtra("SoraName",search.getSoraName());
                 _context.startActivity(intent);
             }
         });

@@ -76,6 +76,7 @@ public class QuranActivity extends AppCompatActivity {
     public Constant constObj;
     AppConfigurations appConfigurations;
     boolean fromHome;
+    boolean fromSearch;
     ImageView btnPlay;
     String SoraName;
     Spinner songerSpinner;
@@ -121,18 +122,21 @@ public  static  boolean isSaved= false;
         startActivity(Intent.createChooser(shareIntent,"المشاركة عبر"));
 
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quran);
+        mViewPager = (ViewPager) findViewById(R.id.pager);
 
 
-     ImageView btnSearch = (ImageView)findViewById(R.id.btnSearch);
+        ImageView btnSearch = (ImageView)findViewById(R.id.btnSearch);
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(QuranActivity.this,SearchQuranActivity.class));
+                finish();
             }
         });
         appConfigurations =new AppConfigurations();
@@ -171,6 +175,7 @@ public  static  boolean isSaved= false;
             }
         });
         constObj = new Constant();
+
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         savepos = prefs.getInt("saveindex", -1);
 
@@ -244,74 +249,6 @@ public  static  boolean isSaved= false;
 
 
         SoraName = appConfigurations.allSoar.get(0).Name;
-
-        if (getIntent() != null && getIntent().getExtras() != null) {
-
-            fromHome =  getIntent().getExtras().getBoolean("fromhome",false);
-            index = getIntent().getExtras().getInt("index");
-            if(!fromHome) {
-                SoraName = appConfigurations.allSoar.get(getIntent().getExtras().getInt("position", 0)).Name;
-                index = 603 - index;
-                //currentPos = index;
-                if(savepos == index) {
-                    btnSaveBookMark.setImageResource(R.drawable.bookmark_marked);
-                    isSaved = true;
-                }
-            }
-            else{
-                //getting it from shared preference
-                prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                SoraName = prefs.getString("soraname", "");
-               // if(savepos == currentPos) {
-                    btnSaveBookMark.setImageResource(R.drawable.bookmark_marked);
-                    isSaved = true;
-                //}
-
-
-            }
-
-
-        }
-
-        ArrayList<String> list = new ArrayList<>();
-        list.add("عبد الرحمن السديس");
-        list.add("عبد الرحمن الحذيفي");
-        list.add("عبد الباسط عبد الصمد");
-        list.add("محمد صديق المنشاوي");
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, list);
-        //  ArrayAdapter adapter = ArrayAdapter.createFromResource(this,
-        //        R.array.planets_array, R.layout.spinner_item);
-
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
-        songerSpinner.setAdapter(adapter);
-
-        //Set the listener for when each option is clicked.
-        songerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //Change the selected item's text color
-                selectedSound = position;
-                if (view != null)
-                    ((TextView) view).setTextColor(Color.WHITE);
-                btnPlay.setImageResource(R.drawable.ic_play_arrow_white_24dp);
-                if (isPlaying)
-                {
-                    player.pause();
-                    player=null;
-                    isPlaying=false;
-                }
-                else
-                {
-                    player=null;
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-
         //m = new MediaPlayer();
         btnPlay = (ImageView) findViewById(R.id.btnPlay);
         getSupportActionBar().hide();
@@ -319,9 +256,9 @@ public  static  boolean isSaved= false;
 
         initPagesDrawables();
         CustomPagerAdapter mCustomPagerAdapter = new CustomPagerAdapter(this, allPages);
-        mViewPager = (ViewPager) findViewById(R.id.pager);
 
 
+        mViewPager.setAdapter(mCustomPagerAdapter);
 
         View.OnTouchListener touchListener = new View.OnTouchListener() {
             @Override
@@ -336,7 +273,7 @@ public  static  boolean isSaved= false;
                         View vv = quran_layout.getChildAt(i);
                         if (vv instanceof MyView) {
                             quran_layout.removeView(vv);
-i--;
+                            i--;
                             childCount--;
                         }
                     }
@@ -353,11 +290,11 @@ i--;
                     PageInformation pageInformation = allAyatInforamation.AllQuranPages.get(603-mViewPager.getCurrentItem());
                     ArrayList<AyahInformation> ayahInformations = pageInformation.getPageAyat();
 
-                 //   int tempindex=-1;
+                    //   int tempindex=-1;
                     for (AyahInformation ayah :
                             ayahInformations) {
 
-                       // tempindex++;
+                        // tempindex++;
                         int y_start = (int) (((int) (mViewPager.getHeight()) * ayah.yStart) / 2024);
                         int y_end = (int) (((int) (mViewPager.getHeight()) * ayah.yEnd) / 2024);
                         int x_start = (int) (((int) (mViewPager.getWidth()) * ayah.xStart) / 1536);
@@ -424,9 +361,10 @@ i--;
 
                                 if(player != null)
                                 {
-player.pause();
+                                    player.pause();
                                     isPlaying= false;
                                     player = null;
+                                    btnPlay.setImageResource(R.drawable.ic_play_arrow_white_24dp);
 
                                 }
 
@@ -453,7 +391,7 @@ player.pause();
                                     View vv = quran_layout.getChildAt(i);
                                     if (vv instanceof MyView) {
                                         quran_layout.removeView(vv);
-i--;
+                                        i--;
                                         childCount--;
                                     }
                                 }
@@ -465,6 +403,7 @@ i--;
                                     player.pause();
                                     isPlaying= false;
                                     player = null;
+                                    btnPlay.setImageResource(R.drawable.ic_play_arrow_white_24dp);
 
                                 }
 
@@ -497,10 +436,10 @@ i--;
                                     MyView myView = new MyView(QuranActivity.this, (int) x_start, y_start + 100, x_end, y_end + 100);
                                     quran_layout.addView(myView);
                                 }
-break;
+                                break;
                             }
                             //CGRect(x: x_end, y:y_start+Int((topBar.frame.size.height + bottomBar.frame.size.height))
- //, width:x_start-x_end, height: y_end-y_start))
+                            //, width:x_start-x_end, height: y_end-y_start))
                         }
 
 
@@ -532,12 +471,192 @@ break;
                 return false;
             }
         };
-
-
-
         mViewPager.setOnTouchListener(touchListener);
 
-        mViewPager.setAdapter(mCustomPagerAdapter);
+
+
+        if (getIntent() != null && getIntent().getExtras() != null) {
+
+
+            fromHome =  getIntent().getExtras().getBoolean("fromhome",false);
+            fromSearch =  getIntent().getExtras().getBoolean("fromSearch",false);
+            if(fromSearch)
+            {
+
+                int w,h;
+                SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+                w=pref.getInt("w", 0);
+                h=pref.getInt("h", 0);
+
+                int page =Integer.valueOf(getIntent().getExtras().getString("Page"))-1;
+                index = page;
+                SoraName = getIntent().getExtras().getString("SoraName");
+                index = 603 - index;
+                if (savepos == index) {
+                    btnSaveBookMark.setImageResource(R.drawable.bookmark_marked);
+                    isSaved = true;
+                }
+
+                mViewPager.setCurrentItem(index);
+
+
+                int SearcherAyahNum = Integer.valueOf(getIntent().getExtras().getString("AyahNumber"));
+                AyayNumber = SearcherAyahNum;
+                //draw Ayah Number
+                AllAyatInforamation allAyatInforamation=null;
+                allAyatInforamation = new AllAyatInforamation();
+
+             PageInformation pageInformation=  allAyatInforamation.AllQuranPages.get(page);
+             ArrayList<AyahInformation> pageAyat = pageInformation.pageAyat;
+                AyahInformation ayah;
+             for(int o= 0 ; o< pageAyat.size(); o++)
+             {
+                 if(pageAyat.get(o).ayahNumber == SearcherAyahNum
+                         && appConfigurations.allSoar.get(pageAyat.get(o).soraNumber-1).Name.equals(SoraName))
+                 {
+                     ayah =pageAyat.get(o);
+                     //Draw Ayah with all information
+
+                     int childCount = quran_layout.getChildCount();
+                     for (int k = 0; k < childCount; k++) {
+                         View vv = quran_layout.getChildAt(k);
+                         if (vv instanceof MyView) {
+                             quran_layout.removeView(vv);
+                             k--;
+                             childCount--;
+                         }
+                     }
+
+
+                     int y_start = (int) (((int) (h) * ayah.yStart) / 2024);
+                     int y_end = (int) (((int) (h) * ayah.yEnd) / 2024);
+                     int x_start = (int) (((int) (w) * ayah.xStart) / 1536);
+                     int x_end = (int) (((int) (w) * ayah.xEnd) / 1536);
+
+//check if multi lines
+                     if((float)(y_end-y_start)/h > 0.08)
+                     {
+                         int numberofRects= (int)((float)(y_end-y_start)/h/0.065);
+                         numberofRects++;
+
+                         int rectHeight= (int)((float)h*0.065);
+                         for(int i=0 ; i<numberofRects ; i++)
+                         {
+                             if(i == 0){
+                                 MyView myView = new MyView(QuranActivity.this, (int) 0, y_start + 100, x_start , (int)100+y_start+rectHeight);
+                                 quran_layout.addView(myView);
+                             }
+                             else if(i == numberofRects - 1)
+                             {
+                                 MyView myView = new MyView(QuranActivity.this, (int) x_end, (i*rectHeight)+y_start + 100,w, (int)100+y_start+rectHeight+(i*rectHeight));
+                                 quran_layout.addView(myView);
+                             }else{
+                                 MyView myView = new MyView(QuranActivity.this, (int) 0, (i*rectHeight)+y_start + 100, w, (int)100+y_start+rectHeight+(i*rectHeight));
+                                 quran_layout.addView(myView);
+                             }
+                         }
+
+                     }
+
+                     else{
+                         MyView myView = new MyView(QuranActivity.this, (int) x_start, y_start + 100, x_end, y_end + 100);
+                         quran_layout.addView(myView);
+                     }
+
+
+                     //MyView myView = new MyView(QuranActivity.this, (int) x_start, y_start + 100, x_end, y_end + 100);
+                     //quran_layout.addView(myView);
+
+                     AyayNumber = ayah.getAyahNumber();
+                     SoraAyahNumber  =ayah.getSoraNumber();
+
+                     //till here
+                     break;
+                 }
+             }
+
+
+
+            }
+            else {
+                index = getIntent().getExtras().getInt("index");
+                if (!fromHome) {
+                    SoraName = appConfigurations.allSoar.get(getIntent().getExtras().getInt("position", 0)).Name;
+                    index = 603 - index;
+                    //currentPos = index;
+                    if (savepos == index) {
+                        btnSaveBookMark.setImageResource(R.drawable.bookmark_marked);
+                        isSaved = true;
+                    }
+                } else {
+                    //getting it from shared preference
+                    prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    SoraName = prefs.getString("soraname", "");
+                    // if(savepos == currentPos) {
+                    btnSaveBookMark.setImageResource(R.drawable.bookmark_marked);
+                    isSaved = true;
+                    //}
+
+
+                }
+            }
+
+        }
+
+        ArrayList<String> list = new ArrayList<>();
+        list.add("عبد الرحمن السديس");
+        list.add("عبد الرحمن الحذيفي");
+        list.add("عبد الباسط عبد الصمد");
+        list.add("محمد صديق المنشاوي");
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, list);
+        //  ArrayAdapter adapter = ArrayAdapter.createFromResource(this,
+        //        R.array.planets_array, R.layout.spinner_item);
+
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        songerSpinner.setAdapter(adapter);
+
+        //Set the listener for when each option is clicked.
+        songerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //Change the selected item's text color
+                //keep width and height here
+                SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putInt("w", mViewPager.getWidth());        // Saving integer
+                editor.putInt("h", mViewPager.getHeight());        // Saving integer
+// Save the changes in SharedPreferences
+                editor.commit(); // commit changes
+
+
+                selectedSound = position;
+                if (view != null)
+                    ((TextView) view).setTextColor(Color.WHITE);
+                btnPlay.setImageResource(R.drawable.ic_play_arrow_white_24dp);
+                if (isPlaying)
+                {
+                    player.pause();
+                    player=null;
+                    isPlaying=false;
+                }
+                else
+                {
+                    player=null;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+
+
+
+
+
+
         if(fromHome)
             mViewPager.setCurrentItem(savepos);
         else
@@ -553,7 +672,7 @@ break;
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                int childCount = quran_layout.getChildCount();
+               /* int childCount = quran_layout.getChildCount();
                 for (int i = 0; i < childCount; i++) {
                     View vv = quran_layout.getChildAt(i);
                     if (vv instanceof MyView) {
@@ -562,7 +681,7 @@ break;
                         childCount--;
                     }
                 }
-                AyayNumber = -1;
+                AyayNumber = -1;*/
 
 
             }
@@ -650,6 +769,7 @@ break;
             }
         });
 
+        int yh= mViewPager.getHeight();
     }
     private void setMp3FileName(int page)
     {
