@@ -290,11 +290,11 @@ public  static  boolean isSaved= false;
                     PageInformation pageInformation = allAyatInforamation.AllQuranPages.get(603-mViewPager.getCurrentItem());
                     ArrayList<AyahInformation> ayahInformations = pageInformation.getPageAyat();
 
-                    //   int tempindex=-1;
+                       int tempindex=-1;
                     for (AyahInformation ayah :
                             ayahInformations) {
 
-                        // tempindex++;
+                         tempindex++;
                         int y_start = (int) (((int) (mViewPager.getHeight()) * ayah.yStart) / 2024);
                         int y_end = (int) (((int) (mViewPager.getHeight()) * ayah.yEnd) / 2024);
                         int x_start = (int) (((int) (mViewPager.getWidth()) * ayah.xStart) / 1536);
@@ -307,7 +307,7 @@ public  static  boolean isSaved= false;
 
                             //Validate X position --one line
                             if(xPos > x_end && xPos <= x_start) {
-                                Toast.makeText(getApplicationContext(), ayah.getAyahContent(), Toast.LENGTH_LONG).show();
+                              //  Toast.makeText(getApplicationContext(), ayah.getAyahContent(), Toast.LENGTH_LONG).show();
                                 //print(i.Aya_num)
                                 //print(i.content)
 
@@ -371,6 +371,17 @@ public  static  boolean isSaved= false;
 
                                 break;
                             }else if((float)(y_end-y_start)/mViewPager.getHeight() > 0.065){
+                                int rectHeight= (int)((float)mViewPager.getHeight()*0.08);
+
+
+                                if(tempindex != ayahInformations.size()-1)
+                                {
+
+                                    int next_y_start = (int) (((int) (mViewPager.getHeight()) * ayahInformations.get(tempindex+1).yStart) / 2024);
+
+                                    if(xPos < x_end && y_end-next_y_start < rectHeight)
+                                        continue;
+                                }
 
                               /*  if(xPos < x_end)
                                 {
@@ -383,7 +394,7 @@ public  static  boolean isSaved= false;
 
                                 }*/
 
-                                Toast.makeText(getApplicationContext(), ayah.getAyahContent(), Toast.LENGTH_LONG).show();
+                                //Toast.makeText(getApplicationContext(), ayah.getAyahContent(), //Toast.LENGTH_LONG).show();
                                 //print(i.Aya_num)
                                 //print(i.content)
                                 childCount = quran_layout.getChildCount();
@@ -413,7 +424,7 @@ public  static  boolean isSaved= false;
                                     int numberofRects= (int)((float)(y_end-y_start)/mViewPager.getHeight()/0.065);
                                     numberofRects++;
 
-                                    int rectHeight= (int)((float)mViewPager.getHeight()*0.065);
+                                    rectHeight= (int)((float)mViewPager.getHeight()*0.065);
                                     for(int i=0 ; i<numberofRects ; i++)
                                     {
                                         if(i == 0){
@@ -457,7 +468,7 @@ public  static  boolean isSaved= false;
                         //we have a 1000ms duration touch
                         //propagate your own event
                         Log.d("LC", "time touched greater than 1000ms");
-                        Toast.makeText(getBaseContext(), "Hello 123", Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(getBaseContext(), "Hello 123", Toast.LENGTH_SHORT).show();
                         startTime=0;
                         endTime=0;
                         return true; //notify that you handled this event (do not propagate)
