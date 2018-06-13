@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.media.AudioManager;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
@@ -24,9 +25,13 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -48,6 +53,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -67,6 +73,7 @@ public class QuranActivity extends AppCompatActivity {
 
     public  static int AyayNumber = -1;
     public  static int SoraAyahNumber = -1;
+    public  static int heightRatio;
     AllAyatInforamation allAyatInforamation=null;
     RelativeLayout quran_layout;
     ArrayList<Integer> allPages;
@@ -121,6 +128,19 @@ public  static  boolean isSaved= false;
 
         startActivity(Intent.createChooser(shareIntent,"المشاركة عبر"));
 
+    }
+
+    private int getActionBarHeight() {
+        int actionBarHeight = getSupportActionBar().getHeight();
+        if (actionBarHeight != 0)
+            return actionBarHeight;
+        final TypedValue tv = new TypedValue();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
+                actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
+        } else if (getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, tv, true))
+            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
+        return actionBarHeight;
     }
 
     @Override
@@ -333,15 +353,15 @@ public  static  boolean isSaved= false;
                                     for(int i=0 ; i<numberofRects ; i++)
                                     {
                                         if(i == 0){
-                                            MyView myView = new MyView(QuranActivity.this, (int) 0, y_start + 100, x_start , (int)100+y_start+rectHeight);
+                                            MyView myView = new MyView(QuranActivity.this, (int) 0, y_start + heightRatio, x_start , (int)heightRatio+y_start+rectHeight);
                                             quran_layout.addView(myView);
                                         }
                                         else if(i == numberofRects - 1)
                                         {
-                                            MyView myView = new MyView(QuranActivity.this, (int) x_end, (i*rectHeight)+y_start + 100, mViewPager.getWidth(), (int)100+y_start+rectHeight+(i*rectHeight));
+                                            MyView myView = new MyView(QuranActivity.this, (int) x_end, (i*rectHeight)+y_start + heightRatio, mViewPager.getWidth(), (int)heightRatio+y_start+rectHeight+(i*rectHeight));
                                             quran_layout.addView(myView);
                                         }else{
-                                            MyView myView = new MyView(QuranActivity.this, (int) 0, (i*rectHeight)+y_start + 100, mViewPager.getWidth(), (int)100+y_start+rectHeight+(i*rectHeight));
+                                            MyView myView = new MyView(QuranActivity.this, (int) 0, (i*rectHeight)+y_start + heightRatio, mViewPager.getWidth(), (int)heightRatio+y_start+rectHeight+(i*rectHeight));
                                             quran_layout.addView(myView);
                                         }
 
@@ -349,7 +369,7 @@ public  static  boolean isSaved= false;
 
 
                                 }else{
-                                    MyView myView = new MyView(QuranActivity.this, (int) x_start, y_start + 100, x_end, y_end + 100);
+                                    MyView myView = new MyView(QuranActivity.this, (int) x_start, y_start + heightRatio, x_end, y_end + heightRatio);
                                     quran_layout.addView(myView);
                                 }
 
@@ -429,15 +449,15 @@ public  static  boolean isSaved= false;
                                     for(int i=0 ; i<numberofRects ; i++)
                                     {
                                         if(i == 0){
-                                            MyView myView = new MyView(QuranActivity.this, (int) 0, y_start + 100, x_start , (int)100+y_start+rectHeight);
+                                            MyView myView = new MyView(QuranActivity.this, (int) 0, y_start + heightRatio, x_start , (int)heightRatio+y_start+rectHeight);
                                             quran_layout.addView(myView);
                                         }
                                         else if(i == numberofRects - 1)
                                         {
-                                            MyView myView = new MyView(QuranActivity.this, (int) x_end, (i*rectHeight)+y_start + 100, mViewPager.getWidth(), (int)100+y_start+rectHeight+(i*rectHeight));
+                                            MyView myView = new MyView(QuranActivity.this, (int) x_end, (i*rectHeight)+y_start + heightRatio, mViewPager.getWidth(), (int)heightRatio+y_start+rectHeight+(i*rectHeight));
                                             quran_layout.addView(myView);
                                         }else{
-                                            MyView myView = new MyView(QuranActivity.this, (int) 0, (i*rectHeight)+y_start + 100, mViewPager.getWidth(), (int)100+y_start+rectHeight+(i*rectHeight));
+                                            MyView myView = new MyView(QuranActivity.this, (int) 0, (i*rectHeight)+y_start + heightRatio, mViewPager.getWidth(), (int)heightRatio+y_start+rectHeight+(i*rectHeight));
                                             quran_layout.addView(myView);
                                         }
 
@@ -445,7 +465,7 @@ public  static  boolean isSaved= false;
 
 
                                 }else{
-                                    MyView myView = new MyView(QuranActivity.this, (int) x_start, y_start + 100, x_end, y_end + 100);
+                                    MyView myView = new MyView(QuranActivity.this, (int) x_start, y_start + heightRatio, x_end, y_end + heightRatio);
                                     quran_layout.addView(myView);
                                 }
                                 break;
@@ -556,15 +576,15 @@ public  static  boolean isSaved= false;
                          for(int i=0 ; i<numberofRects ; i++)
                          {
                              if(i == 0){
-                                 MyView myView = new MyView(QuranActivity.this, (int) 0, y_start + 100, x_start , (int)100+y_start+rectHeight);
+                                 MyView myView = new MyView(QuranActivity.this, (int) 0, y_start + heightRatio, x_start , (int)heightRatio+y_start+rectHeight);
                                  quran_layout.addView(myView);
                              }
                              else if(i == numberofRects - 1)
                              {
-                                 MyView myView = new MyView(QuranActivity.this, (int) x_end, (i*rectHeight)+y_start + 100,w, (int)100+y_start+rectHeight+(i*rectHeight));
+                                 MyView myView = new MyView(QuranActivity.this, (int) x_end, (i*rectHeight)+y_start + heightRatio,w, (int)heightRatio+y_start+rectHeight+(i*rectHeight));
                                  quran_layout.addView(myView);
                              }else{
-                                 MyView myView = new MyView(QuranActivity.this, (int) 0, (i*rectHeight)+y_start + 100, w, (int)100+y_start+rectHeight+(i*rectHeight));
+                                 MyView myView = new MyView(QuranActivity.this, (int) 0, (i*rectHeight)+y_start + heightRatio, w, (int)heightRatio+y_start+rectHeight+(i*rectHeight));
                                  quran_layout.addView(myView);
                              }
                          }
@@ -572,7 +592,7 @@ public  static  boolean isSaved= false;
                      }
 
                      else{
-                         MyView myView = new MyView(QuranActivity.this, (int) x_start, y_start + 100, x_end, y_end + 100);
+                         MyView myView = new MyView(QuranActivity.this, (int) x_start, y_start + heightRatio, x_end, y_end + heightRatio);
                          quran_layout.addView(myView);
                      }
 
@@ -640,6 +660,24 @@ public  static  boolean isSaved= false;
                 SharedPreferences.Editor editor = pref.edit();
                 editor.putInt("w", mViewPager.getWidth());        // Saving integer
                 editor.putInt("h", mViewPager.getHeight());        // Saving integer
+
+                DisplayMetrics displayMetrics = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+                int height = displayMetrics.heightPixels;
+                int width = displayMetrics.widthPixels;
+
+
+                Rect rectangle = new Rect();
+                Window window = getWindow();
+                window.getDecorView().getWindowVisibleDisplayFrame(rectangle);
+                int statusBarHeight = rectangle.top;
+                int contentViewTop =
+                        window.findViewById(Window.ID_ANDROID_CONTENT).getTop();
+                int titleBarHeight= contentViewTop - statusBarHeight;
+
+                Log.i("*** Elenasys :: ", "StatusBar Height= " + statusBarHeight + " , TitleBar Height = " + titleBarHeight);
+
+                heightRatio =getActionBarHeight();//(int)(0.090125*height);
 // Save the changes in SharedPreferences
                 editor.commit(); // commit changes
 
