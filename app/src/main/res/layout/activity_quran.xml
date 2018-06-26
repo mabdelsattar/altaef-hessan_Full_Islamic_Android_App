@@ -81,13 +81,13 @@
 
 
 
-        <TextView
-            android:id="@+id/soraName"
+        <CheckBox
+            android:id="@+id/checkRepeat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
             android:layout_centerVertical="true"
-            android:text="سورة الفاتحة"
+            android:text="تكرار الايه"
             android:textColor="#FFF"
             android:textSize="22sp"
             android:layout_toRightOf="@+id/btnBookMark"

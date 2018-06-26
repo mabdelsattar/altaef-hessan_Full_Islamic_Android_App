@@ -35,6 +35,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -78,7 +79,8 @@ public class QuranActivity extends AppCompatActivity {
     RelativeLayout quran_layout;
     ArrayList<Integer> allPages;
     int index = 603;
-    TextView soraName;
+   // TextView soraName;
+    CheckBox checkRepeat;
     public  static  int selectedSound= 0;
     public Constant constObj;
     AppConfigurations appConfigurations;
@@ -161,7 +163,7 @@ public  static  boolean isSaved= false;
         });
         appConfigurations =new AppConfigurations();
         quran_layout = (RelativeLayout)findViewById(R.id.quran_layout);
-        soraName = (TextView) findViewById(R.id.soraName);
+        checkRepeat = (CheckBox) findViewById(R.id.checkRepeat);
         songerSpinner = (Spinner) findViewById(R.id.songersSpinner);
 
         Tafseerbutton =(ImageView) findViewById(R.id.btnTafseer);
@@ -244,7 +246,7 @@ public  static  boolean isSaved= false;
                     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                     SharedPreferences.Editor editor = prefs.edit();
                     editor.putInt("saveindex", savepos);
-                    editor.putString("soraname", soraName.getText().toString());
+                    editor.putString("soraname", SoraName);
                     editor.commit();
                     Toast.makeText(getApplicationContext(),"تم حفظ العلامه",Toast.LENGTH_LONG).show();
 
@@ -767,7 +769,7 @@ public  static  boolean isSaved= false;
 
 
                 position = 603-position;
-                soraName.setText(getSoraNamebyPage(position));
+              //  soraName.setText(getSoraNamebyPage(position));
 
                 btnPlay.setImageResource(R.drawable.ic_play_arrow_white_24dp);
                 if (isPlaying)
@@ -789,11 +791,11 @@ public  static  boolean isSaved= false;
             }
         });
 
-        soraName.setText(SoraName);
+       // soraName.setText(SoraName);
         btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isPlaying)
+                if (isPlaying) //pause
                 {
                     player.pause();
                     isPlaying=false;
@@ -802,7 +804,7 @@ public  static  boolean isSaved= false;
                 }
                 else
                 {
-                    if (player!=null)
+                    if (player != null)//resume
                     {
                         btnPlay.setImageResource(R.drawable.ic_pause_circle_outline_white_24dp);
                         player.seekTo(length);
@@ -818,10 +820,9 @@ public  static  boolean isSaved= false;
                         int nextPage = mViewPager.getCurrentItem();
 
                         if(AyayNumber != -1) {
-                            if (isLastAyah())
-                                nextPage = mViewPager.getCurrentItem() - 1;
-
-                            nextAyah = GetNextAyah(nextPage);
+                           // if (isLastAyah())
+                             //   nextPage = mViewPager.getCurrentItem() - 1;
+                            nextAyah = GetCurrentAyah(nextPage);
                         } else{
                             nextAyah = FirstAyah(nextPage);
                         }
@@ -944,8 +945,10 @@ public  static  boolean isSaved= false;
                 soraStr = "0" + SoraAyahNumber;
             else
                 soraStr = "" + SoraAyahNumber;
-//http://mojamah.net/appfiles/S_002 - 018.mp3
-            fileName = "S_" + soraStr + "-" + AyahStr + ".mp3";
+                if(AyayNumber == 0)
+                     fileName =  "S_001-001.mp3";
+                else
+                     fileName = "S_" + soraStr + "-" + AyahStr + ".mp3";
         }
 
     }
@@ -1646,31 +1649,32 @@ public  static  boolean isSaved= false;
             player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
-                    isPlaying = false;
-                    btnPlay.setImageResource(R.drawable.ic_play_arrow_white_24dp);
-                    if(player != null && isPlaying == true)
-                        player.pause();
-                    player=null;
-                   // if(AyayNumber != -1) {
+
+                    if(checkRepeat.isChecked()){//repeat //TODO chekc on check box
+                        isPlaying = false;
+                        btnPlay.setImageResource(R.drawable.ic_play_arrow_white_24dp);
+                        if (player != null && isPlaying == true)
+                            player.pause();
+                        player = null;
+                        // if(AyayNumber != -1) {
 
                         AyahInformation nextAyah = null;
                         int nextPage = mViewPager.getCurrentItem();
 
-                        if(AyayNumber != -1) {
-                            if (isLastAyah())
-                                nextPage = mViewPager.getCurrentItem() - 1;
-
-                            nextAyah = GetNextAyah(nextPage);
-                        } else{
+                        if (AyayNumber != -1) {
+                            //if (isLastAyah())
+                              //  nextPage = mViewPager.getCurrentItem() - 1;
+                            nextAyah = GetCurrentAyah(nextPage);
+                        } else {
                             nextAyah = FirstAyah(nextPage);
                         }
 
-                        if(nextPage != mViewPager.getCurrentItem())
-                         mViewPager.setCurrentItem(nextPage);
+                        if (nextPage != mViewPager.getCurrentItem())
+                            mViewPager.setCurrentItem(nextPage);
 
                         //Setting Ayah Number
                         AyayNumber = nextAyah.getAyahNumber();
-                        SoraAyahNumber  =nextAyah.getSoraNumber();
+                        SoraAyahNumber = nextAyah.getSoraNumber();
 
                         //drawing ayah
                         int childCount = quran_layout.getChildCount();
@@ -1682,10 +1686,10 @@ public  static  boolean isSaved= false;
                                 childCount--;
                             }
                         }
-                        int w,h;
+                        int w, h;
                         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
-                        w=pref.getInt("w", 0);
-                        h=pref.getInt("h", 0);
+                        w = pref.getInt("w", 0);
+                        h = pref.getInt("h", 0);
 
                         int y_start = (int) (((int) (h) * nextAyah.yStart) / 2024);
                         int y_end = (int) (((int) (h) * nextAyah.yEnd) / 2024);
@@ -1693,31 +1697,25 @@ public  static  boolean isSaved= false;
                         int x_end = (int) (((int) (w) * nextAyah.xEnd) / 1536);
 
 //check if multi lines
-                        if((float)(y_end-y_start)/h > 0.08)
-                        {
-                            int numberofRects= (int)((float)(y_end-y_start)/h/0.065);
+                        if ((float) (y_end - y_start) / h > 0.08) {
+                            int numberofRects = (int) ((float) (y_end - y_start) / h / 0.065);
                             numberofRects++;
 
-                            int rectHeight= (int)((float)h*0.065);
-                            for(int i=0 ; i<numberofRects ; i++)
-                            {
-                                if(i == 0){
-                                    MyView myView = new MyView(QuranActivity.this, (int) 0, y_start + heightRatio, x_start , (int)heightRatio+y_start+rectHeight);
+                            int rectHeight = (int) ((float) h * 0.065);
+                            for (int i = 0; i < numberofRects; i++) {
+                                if (i == 0) {
+                                    MyView myView = new MyView(QuranActivity.this, (int) 0, y_start + heightRatio, x_start, (int) heightRatio + y_start + rectHeight);
                                     quran_layout.addView(myView);
-                                }
-                                else if(i == numberofRects - 1)
-                                {
-                                    MyView myView = new MyView(QuranActivity.this, (int) x_end, (i*rectHeight)+y_start + heightRatio,w, (int)heightRatio+y_start+rectHeight+(i*rectHeight));
+                                } else if (i == numberofRects - 1) {
+                                    MyView myView = new MyView(QuranActivity.this, (int) x_end, (i * rectHeight) + y_start + heightRatio, w, (int) heightRatio + y_start + rectHeight + (i * rectHeight));
                                     quran_layout.addView(myView);
-                                }else{
-                                    MyView myView = new MyView(QuranActivity.this, (int) 0, (i*rectHeight)+y_start + heightRatio, w, (int)heightRatio+y_start+rectHeight+(i*rectHeight));
+                                } else {
+                                    MyView myView = new MyView(QuranActivity.this, (int) 0, (i * rectHeight) + y_start + heightRatio, w, (int) heightRatio + y_start + rectHeight + (i * rectHeight));
                                     quran_layout.addView(myView);
                                 }
                             }
 
-                        }
-
-                        else {
+                        } else {
                             MyView myView = new MyView(QuranActivity.this, (int) x_start, y_start + heightRatio, x_end, y_end + heightRatio);
                             quran_layout.addView(myView);
                         }
@@ -1725,8 +1723,85 @@ public  static  boolean isSaved= false;
                         //them play so
                         setMp3FileName(603 - mViewPager.getCurrentItem());
                         checkPer();
-                    //}
 
+                    }
+
+                    else {
+                        isPlaying = false;
+                        btnPlay.setImageResource(R.drawable.ic_play_arrow_white_24dp);
+                        if (player != null && isPlaying == true)
+                            player.pause();
+                        player = null;
+                        // if(AyayNumber != -1) {
+
+                        AyahInformation nextAyah = null;
+                        int nextPage = mViewPager.getCurrentItem();
+
+                        if (AyayNumber != -1) {
+                            if (isLastAyah())
+                                nextPage = mViewPager.getCurrentItem() - 1;
+
+                            nextAyah = GetNextAyah(nextPage);
+                        } else {
+                            nextAyah = FirstAyah(nextPage);
+                        }
+
+                        if (nextPage != mViewPager.getCurrentItem())
+                            mViewPager.setCurrentItem(nextPage);
+
+                        //Setting Ayah Number
+                        AyayNumber = nextAyah.getAyahNumber();
+                        SoraAyahNumber = nextAyah.getSoraNumber();
+
+                        //drawing ayah
+                        int childCount = quran_layout.getChildCount();
+                        for (int k = 0; k < childCount; k++) {
+                            View vv = quran_layout.getChildAt(k);
+                            if (vv instanceof MyView) {
+                                quran_layout.removeView(vv);
+                                k--;
+                                childCount--;
+                            }
+                        }
+                        int w, h;
+                        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+                        w = pref.getInt("w", 0);
+                        h = pref.getInt("h", 0);
+
+                        int y_start = (int) (((int) (h) * nextAyah.yStart) / 2024);
+                        int y_end = (int) (((int) (h) * nextAyah.yEnd) / 2024);
+                        int x_start = (int) (((int) (w) * nextAyah.xStart) / 1536);
+                        int x_end = (int) (((int) (w) * nextAyah.xEnd) / 1536);
+
+//check if multi lines
+                        if ((float) (y_end - y_start) / h > 0.08) {
+                            int numberofRects = (int) ((float) (y_end - y_start) / h / 0.065);
+                            numberofRects++;
+
+                            int rectHeight = (int) ((float) h * 0.065);
+                            for (int i = 0; i < numberofRects; i++) {
+                                if (i == 0) {
+                                    MyView myView = new MyView(QuranActivity.this, (int) 0, y_start + heightRatio, x_start, (int) heightRatio + y_start + rectHeight);
+                                    quran_layout.addView(myView);
+                                } else if (i == numberofRects - 1) {
+                                    MyView myView = new MyView(QuranActivity.this, (int) x_end, (i * rectHeight) + y_start + heightRatio, w, (int) heightRatio + y_start + rectHeight + (i * rectHeight));
+                                    quran_layout.addView(myView);
+                                } else {
+                                    MyView myView = new MyView(QuranActivity.this, (int) 0, (i * rectHeight) + y_start + heightRatio, w, (int) heightRatio + y_start + rectHeight + (i * rectHeight));
+                                    quran_layout.addView(myView);
+                                }
+                            }
+
+                        } else {
+                            MyView myView = new MyView(QuranActivity.this, (int) x_start, y_start + heightRatio, x_end, y_end + heightRatio);
+                            quran_layout.addView(myView);
+                        }
+
+                        //them play so
+                        setMp3FileName(603 - mViewPager.getCurrentItem());
+                        checkPer();
+                        //}
+                    }
                 }
             });
 
@@ -1759,7 +1834,7 @@ public  static  boolean isSaved= false;
 
              ArrayList<AyahInformation> pageAyat =pageInformation.getPageAyat();
              for(int i=0 ; i< pageAyat.size() ; i++){
-                if(pageAyat.get(i).ayahNumber == AyayNumber)
+                if(pageAyat.get(i).ayahNumber == AyayNumber && pageAyat.get(i).soraNumber == SoraAyahNumber)
                 {
                     return  pageAyat.get(i+1);
                 }
@@ -1769,13 +1844,37 @@ public  static  boolean isSaved= false;
 return  null;
     }
 
+    private AyahInformation GetCurrentAyah(int CurrentPage) {
+        if (allAyatInforamation == null)
+            allAyatInforamation = new AllAyatInforamation();
+
+        AyahInformation ayahInformation = null;
+        PageInformation pageInformation = allAyatInforamation.AllQuranPages.get(603-CurrentPage);
+        if(CurrentPage != mViewPager.getCurrentItem()) //new page
+        {
+            return  pageInformation.getPageAyat().get(0);//return first ayah
+        }
+        else{ // still on the same page
+
+            ArrayList<AyahInformation> pageAyat =pageInformation.getPageAyat();
+            for(int i=0 ; i< pageAyat.size() ; i++){
+                if(pageAyat.get(i).ayahNumber == AyayNumber && pageAyat.get(i).soraNumber == SoraAyahNumber)
+                {
+                    return  pageAyat.get(i);
+                }
+            }
+        }
+        return  null;
+    }
     private boolean isLastAyah() {
         if (allAyatInforamation == null)
             allAyatInforamation = new AllAyatInforamation();
 
         PageInformation pageInformation = allAyatInforamation.AllQuranPages.get(603-mViewPager.getCurrentItem());
-        if(pageInformation.getPageAyat().get(pageInformation.getPageAyat().size()-1).ayahNumber == AyayNumber)
+        if(pageInformation.getPageAyat().get(pageInformation.getPageAyat().size()-1).ayahNumber == AyayNumber
+                && pageInformation.getPageAyat().get(pageInformation.getPageAyat().size()-1).soraNumber == SoraAyahNumber)
             return true;
+
         return false;
     }
 
