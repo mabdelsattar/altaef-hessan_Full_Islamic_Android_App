@@ -31,7 +31,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_below="@+id/action_bar"
-        android:paddingBottom="50dp"
+        android:paddingBottom="65dp"
+        android:layout_marginTop="30dp"
         android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
@@ -53,7 +54,7 @@
                     android:onClick="openMoqtatafaat"
                     android:layout_height="wrap_content">
                     <ImageView
-                        android:layout_width="125dp"
+                        android:layout_width="85dp"
                         android:layout_height="wrap_content"
                         android:src="@drawable/moqtatafat"
                         android:layout_gravity="center"
@@ -77,7 +78,7 @@
                     android:onClick="openQuran"
                     android:layout_height="wrap_content">
                     <ImageView
-                        android:layout_width="125dp"
+                        android:layout_width="85dp"
                         android:layout_height="wrap_content"
                         android:src="@drawable/quraan_karrem"
                         android:layout_gravity="center"
@@ -117,7 +118,7 @@
                     android:onClick="openMawaqeetElsalah"
                     android:layout_height="wrap_content">
                     <ImageView
-                        android:layout_width="125dp"
+                        android:layout_width="85dp"
                         android:layout_height="wrap_content"
                         android:src="@drawable/mawaqeet_elsalah"
                         android:layout_gravity="center"
@@ -142,7 +143,7 @@
                     android:onClick="openElqepla"
                     android:layout_height="wrap_content">
                     <ImageView
-                        android:layout_width="125dp"
+                        android:layout_width="85dp"
                         android:layout_height="wrap_content"
                         android:src="@drawable/etgah_elqebla"
                         android:layout_gravity="center"
@@ -183,7 +184,7 @@
                     android:onClick="openSepha"
                     android:layout_height="wrap_content">
                     <ImageView
-                        android:layout_width="125dp"
+                        android:layout_width="85dp"
                         android:layout_height="wrap_content"
                         android:src="@drawable/azkaricon"
                         android:layout_gravity="center"
@@ -208,7 +209,7 @@
                     android:onClick="openTwaselMaana"
                     android:layout_height="wrap_content">
                     <ImageView
-                        android:layout_width="125dp"
+                        android:layout_width="85dp"
                         android:layout_height="wrap_content"
                         android:src="@drawable/tawassel_maana"
                         android:layout_gravity="center"

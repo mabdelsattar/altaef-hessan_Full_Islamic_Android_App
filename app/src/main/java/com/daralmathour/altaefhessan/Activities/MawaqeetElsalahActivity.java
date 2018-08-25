@@ -257,11 +257,11 @@ public class MawaqeetElsalahActivity extends AppCompatActivity implements
         else {
 
         }
-        if (jsonObject.equals("")) {
+        if (jsonObject.equals("") || currentLocation!=null) {
             if (currentLocation!=null)
-                loadPrayerTimeData(currentLocation.getLatitude(), currentLocation.getLongitude(), 2, month, year);
+                loadPrayerTimeData(currentLocation.getLatitude(), currentLocation.getLongitude(), 5, month, year);
             else
-                loadPrayerTimeData(30.0651228, 31.3249397, 5, month, year);
+                loadPrayerTimeData(21.422613, 39.826208, 4, month, year);
         }
         else {
             Data data = new Gson().fromJson(jsonObject, Data.class);

@@ -641,7 +641,7 @@ public  static  boolean isSaved= false;
 
         ArrayList<String> list = new ArrayList<>();
         list.add("عبد الرحمن السديس");
-        list.add("عبد الرحمن الحذيفي");
+        list.add("علي الحذيفي");
         list.add("عبد الباسط عبد الصمد");
         list.add("محمد صديق المنشاوي");
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, list);
