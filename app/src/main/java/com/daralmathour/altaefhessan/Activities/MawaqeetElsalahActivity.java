@@ -340,7 +340,8 @@ public class MawaqeetElsalahActivity extends AppCompatActivity implements
         Log.d("DiffractTime", "" + dif);
         long factor = dif / 100;
         long progress = dif / factor;
-
+        if (countDownTimer!=null)
+            countDownTimer.cancel();
         countDownTimer = new CountDownTimer(getDiffractInMaltese(nextPrayerTime), 1000) {
             public void onTick(long millisUntilFinished) {
                 mRemindTime.setText(msToString(millisUntilFinished));
