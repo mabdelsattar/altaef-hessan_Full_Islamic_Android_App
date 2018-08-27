@@ -1,6 +1,11 @@
 package com.daralmathour.altaefhessan.Activities;
 
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.daralmathour.altaefhessan.API.ConnectionManager;
@@ -31,7 +37,6 @@ import com.daralmathour.altaefhessan.API.Model.Data;
 import com.daralmathour.altaefhessan.PrayerAlarm.SampleAlarmReceiver;
 import com.daralmathour.altaefhessan.R;
 import com.daralmathour.altaefhessan.Utils.Constant;
-import com.daralmathour.altaefhessan.Utils.LocationManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -60,7 +65,7 @@ import static com.daralmathour.altaefhessan.Utils.Utils.parseTimeToAmPm;
 public class MawaqeetElsalahActivity extends AppCompatActivity implements
         MediaPlayer.OnPreparedListener,
         MediaPlayer.OnErrorListener,
-        AudioManager.OnAudioFocusChangeListener{
+        AudioManager.OnAudioFocusChangeListener {
 
     /**
      * ButterKnife Code
@@ -157,22 +162,17 @@ public class MawaqeetElsalahActivity extends AppCompatActivity implements
         if (getIntent().hasExtra("PrayerName")) {
 
         }
-
-        locationManager = new LocationManager(this);
-        locationManager.getCoarseLocation();
-
         SampleAlarmReceiver alarm = new SampleAlarmReceiver();
-
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis() + 5);
         alarm.setAlarm(getApplicationContext(), calendar);
-
         prayerNotificationStatus = loadPrayerNotificationStatus(this);
         initNotificationIcon();
     }
 
     @Override
     protected void onResume() {
+        checkLocationEnable();
         loadTodayData();
         super.onResume();
     }
@@ -238,9 +238,8 @@ public class MawaqeetElsalahActivity extends AppCompatActivity implements
     }
 
 
-    private void loadTodayData() {
+    private boolean loadTodayData() {
         sharedPreferences = getSharedPreferences("PrayerTime", Context.MODE_PRIVATE);
-
         Calendar cal = Calendar.getInstance();
         int dayIndex = cal.get(Calendar.DAY_OF_MONTH);
         int month = cal.get(Calendar.MONTH);
@@ -249,25 +248,15 @@ public class MawaqeetElsalahActivity extends AppCompatActivity implements
         String key = "y_" + String.valueOf(year) + "_m_" + String.valueOf(month) + "_d_" + String.valueOf(dayIndex);
         Log.d(Constant.TAG, key);
         String jsonObject = sharedPreferences.getString(key, "");
-        checkLocationEnable();
-        if (checkAndRequestPermissions()) {
 
-            currentLocation = locationManager.getCoarseLocation();
-        }
-        else {
-
-        }
-        if (jsonObject.equals("") || currentLocation!=null) {
-            if (currentLocation!=null)
-                loadPrayerTimeData(currentLocation.getLatitude(), currentLocation.getLongitude(), 5, month, year);
-            else
-                loadPrayerTimeData(21.422613, 39.826208, 4, month, year);
-        }
-        else {
+        if (!(jsonObject.equals(""))){
             Data data = new Gson().fromJson(jsonObject, Data.class);
             Log.d(Constant.TAG, "data : " + data.toString());
             bindDataToView(data);
+            return true;
         }
+        else
+            return false;
     }
 
     private void bindDataToView(Data data) {
@@ -289,38 +278,38 @@ public class MawaqeetElsalahActivity extends AppCompatActivity implements
 
         mCountry.setText(data.getMeta().getTimezone());
         if (checkNextTime(timeFajr)) {
-            addProgressTime(timeFajr,timeIsha);
+            addProgressTime(timeFajr, timeIsha);
             mPrayerName.setText("الفجر");
             mPrayerTime.setText(timeFajr);
             mPrayerItem1.setCardBackgroundColor(this.getResources().getColor(R.color.color_green_2));
 
         } else if (checkNextTime(timeSunrise)) {
-            addProgressTime(timeSunrise,timeFajr);
+            addProgressTime(timeSunrise, timeFajr);
             mPrayerName.setText("الشروق");
             mPrayerTime.setText(timeSunrise);
             mPrayerItem2.setCardBackgroundColor(this.getResources().getColor(R.color.color_green_2));
         } else if (checkNextTime(timeDhuhr)) {
-            addProgressTime(timeDhuhr,timeSunrise);
+            addProgressTime(timeDhuhr, timeSunrise);
             mPrayerName.setText("الظهر");
             mPrayerTime.setText(timeDhuhr);
             mPrayerItem3.setCardBackgroundColor(this.getResources().getColor(R.color.color_green_2));
         } else if (checkNextTime(timeAsr)) {
-            addProgressTime(timeAsr,timeDhuhr);
+            addProgressTime(timeAsr, timeDhuhr);
             mPrayerName.setText("العصر");
             mPrayerTime.setText(timeAsr);
             mPrayerItem4.setCardBackgroundColor(this.getResources().getColor(R.color.color_green_2));
         } else if (checkNextTime(timeMaghrib)) {
-            addProgressTime(timeMaghrib , timeAsr);
+            addProgressTime(timeMaghrib, timeAsr);
             mPrayerName.setText("المغرب");
             mPrayerTime.setText(timeMaghrib);
             mPrayerItem5.setCardBackgroundColor(this.getResources().getColor(R.color.color_green_2));
         } else if (checkNextTime(timeIsha)) {
-            addProgressTime(timeIsha,timeMaghrib);
+            addProgressTime(timeIsha, timeMaghrib);
             mPrayerName.setText("العشاء");
             mPrayerTime.setText(timeIsha);
             mPrayerItem6.setCardBackgroundColor(this.getResources().getColor(R.color.color_green_2));
         } else {
-            addProgressTime(timeFajr,timeIsha);
+            addProgressTime(timeFajr, timeIsha);
             mPrayerName.setText("الفجر");
             mPrayerTime.setText(timeFajr);
             mPrayerItem1.setCardBackgroundColor(this.getResources().getColor(R.color.color_green_2));
@@ -340,17 +329,17 @@ public class MawaqeetElsalahActivity extends AppCompatActivity implements
     Date nextPrayerTime = null;
 
     CountDownTimer countDownTimer;
-    private void addProgressTime(String nextPrayerTime , String lastTime) {
 
+    private void addProgressTime(String nextPrayerTime, String lastTime) {
 
 
         tf = new SimpleDateFormat("HH:mm:ss");
         Log.d("StartTime", nextPrayerTime);
 
-        long dif = getDiffractInMaltese(lastTime,nextPrayerTime);
-        Log.d("DiffractTime", ""+dif);
-        long factor = dif/100;
-        long progress = dif /factor;
+        long dif = getDiffractInMaltese(lastTime, nextPrayerTime);
+        Log.d("DiffractTime", "" + dif);
+        long factor = dif / 100;
+        long progress = dif / factor;
 
         countDownTimer = new CountDownTimer(getDiffractInMaltese(nextPrayerTime), 1000) {
             public void onTick(long millisUntilFinished) {
@@ -450,7 +439,7 @@ public class MawaqeetElsalahActivity extends AppCompatActivity implements
     }
 
 
-    LocationManager locationManager;
+    //    LocationManager locationManager;
     Location currentLocation;
     public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
 
@@ -469,6 +458,7 @@ public class MawaqeetElsalahActivity extends AppCompatActivity implements
             ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), REQUEST_ID_MULTIPLE_PERMISSIONS);
             return false;
         }
+        getLocation();
         return true;
     }
 
@@ -491,8 +481,7 @@ public class MawaqeetElsalahActivity extends AppCompatActivity implements
                     if (perms.get(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                             && perms.get(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                         Log.d(Constant.TAG, "location services permission granted");
-                        currentLocation = locationManager.getCoarseLocation();
-                        loadTodayData();
+                        getLocation();
                     } else {
                         Log.d(Constant.TAG, "Some permissions are not granted ask again ");
                         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION) || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION)) {
@@ -530,12 +519,12 @@ public class MawaqeetElsalahActivity extends AppCompatActivity implements
 
 
     private void checkLocationEnable() {
-        android.location.LocationManager locationManager;
+        LocationManager locationManager;
         locationManager = (android.location.LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (!locationManager.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)) {
             final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(MawaqeetElsalahActivity.this);
             builder.setTitle("تفعيل تحديد الموقع");
-            builder.setMessage("قم بالسماح للتطبيق لاستخدام الموقع الخاص بك");
+            builder.setMessage("قم بالسماح للتطبيق لاستخدام الموقع الخاص بك لتعيين مواقيت الصلاه");
             builder.setPositiveButton("فتح الاعدادات", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -544,17 +533,77 @@ public class MawaqeetElsalahActivity extends AppCompatActivity implements
 
                 }
             });
-            builder.setNegativeButton("إلغاء", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                }
-            });
+//            builder.setNegativeButton("إلغاء", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//
+//                }
+//            });
             builder.show();
+        } else {
+            checkAndRequestPermissions();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 2) {
+            android.location.LocationManager locationManager1;
+            locationManager1 = (android.location.LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            if (!locationManager1.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)) {
+                checkLocationEnable();
+            } else {
+                getLocation();
+            }
         }
     }
 
 
+    protected LocationManager locationManager;
+    private static final long MINIMUM_DISTANCE_CHANGE_FOR_UPDATES = 1; // in Meters
+    private static final long MINIMUM_TIME_BETWEEN_UPDATES = 1000; // in Milliseconds
+
+    private void getLocation() {
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        locationManager.requestLocationUpdates(
+                LocationManager.GPS_PROVIDER,
+                MINIMUM_TIME_BETWEEN_UPDATES,
+                MINIMUM_DISTANCE_CHANGE_FOR_UPDATES,
+                new MyLocationListener()
+        );
+        currentLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+        if (currentLocation != null) {
+            String message = String.format(
+                    "Current Location \n Longitude: %1$s \n Latitude: %2$s",
+                    currentLocation.getLongitude(), currentLocation.getLatitude()
+            );
+//            Toast.makeText(MawaqeetElsalahActivity.this, message,
+//                    Toast.LENGTH_LONG).show();
+        }
+
+        Calendar cal = Calendar.getInstance();
+        int dayIndex = cal.get(Calendar.DAY_OF_MONTH);
+        int month = cal.get(Calendar.MONTH);
+        month += 1;
+        int year = cal.get(Calendar.YEAR);
+
+        if (currentLocation != null)
+            loadPrayerTimeData(currentLocation.getLatitude(), currentLocation.getLongitude(), 5, month, year);
+        else if (!loadTodayData())
+            loadPrayerTimeData(21.422613, 39.826208, 4, month, year);
+    }
     private MediaPlayer mMediaPlayer;
 
     private void playAzanSound() {
@@ -588,8 +637,6 @@ public class MawaqeetElsalahActivity extends AppCompatActivity implements
             stopAzanSound();
         super.onStop();
     }
-
-
 
     private MediaPlayer mAudioPlayer = null;
     private void initMediaPlayer() {
@@ -660,4 +707,25 @@ public class MawaqeetElsalahActivity extends AppCompatActivity implements
             Log.w("PlayAzan", "Problem in playing audio");
         }
     }
+
+    private class MyLocationListener implements LocationListener {
+
+        public void onLocationChanged(Location location) {
+
+        }
+
+        public void onStatusChanged(String s, int i, Bundle b) {
+
+        }
+
+        public void onProviderDisabled(String s) {
+
+        }
+
+        public void onProviderEnabled(String s) {
+
+        }
+
+    }
+
 }
