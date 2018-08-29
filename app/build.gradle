@@ -7,10 +7,12 @@ android {
         applicationId "com.daralmathour.altaefhessan"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 10
-        versionName "1.9"
+        versionCode 12
+        versionName "1.10"
+        multiDexEnabled  true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
         release {
             minifyEnabled false

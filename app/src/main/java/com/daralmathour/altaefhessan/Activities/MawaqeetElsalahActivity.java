@@ -395,6 +395,8 @@ public class MawaqeetElsalahActivity extends AppCompatActivity implements
 
     private void loadPrayerTimeData(double latitude, double longitude, int method, final int month, final int year) {
         // show loading dialog
+        String locale = getApplicationContext().getResources().getConfiguration().locale.getCountry();
+
         httpGetRequest(this, getRequestUrl(latitude, longitude, method, month, year), new ConnectionManager.OnGetRequestFinishListener() {
             @Override
             public void onSuccess(JSONObject response) {
@@ -599,9 +601,10 @@ public class MawaqeetElsalahActivity extends AppCompatActivity implements
         int month = cal.get(Calendar.MONTH);
         month += 1;
         int year = cal.get(Calendar.YEAR);
+        String locale = getApplicationContext().getResources().getConfiguration().locale.getCountry();
 
         if (currentLocation != null)
-            loadPrayerTimeData(currentLocation.getLatitude(), currentLocation.getLongitude(), 5, month, year);
+            loadPrayerTimeData(currentLocation.getLatitude(), currentLocation.getLongitude(), 4, month, year);
         else if (!loadTodayData())
             loadPrayerTimeData(21.422613, 39.826208, 4, month, year);
     }
