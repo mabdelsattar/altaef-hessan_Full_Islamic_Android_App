@@ -1,5 +1,7 @@
 package com.daralmathour.altaefhessan.Activities;
 
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -49,6 +51,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -154,6 +157,8 @@ public class MawaqeetElsalahActivity extends AppCompatActivity implements
     SharedPreferences.Editor editor;
     ArrayList<Boolean> prayerNotificationStatus;
 
+    String city,country;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -168,11 +173,14 @@ public class MawaqeetElsalahActivity extends AppCompatActivity implements
         alarm.setAlarm(getApplicationContext(), calendar);
         prayerNotificationStatus = loadPrayerNotificationStatus(this);
         initNotificationIcon();
+        checkAndRequestPermissions();
     }
 
     @Override
     protected void onResume() {
         checkLocationEnable();
+        checkAndRequestPermissions();
+        getLocation();
         loadTodayData();
         super.onResume();
     }
@@ -237,6 +245,17 @@ public class MawaqeetElsalahActivity extends AppCompatActivity implements
         editor.apply();
     }
 
+    private void saveCountryandCity() {
+        SharedPreferences preferences = getSharedPreferences("address_custom", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("country",country);
+        editor.putString("city",city);
+        editor.commit();
+        editor.apply();
+    }
+
+
+
 
     private boolean loadTodayData() {
         sharedPreferences = getSharedPreferences("PrayerTime", Context.MODE_PRIVATE);
@@ -276,7 +295,14 @@ public class MawaqeetElsalahActivity extends AppCompatActivity implements
         mPrayerItem6.setCardBackgroundColor(this.getResources().getColor(R.color.color_green));
 
 
-        mCountry.setText(data.getMeta().getTimezone());
+       // mCountry.setText(data.getMeta().getTimezone());
+        if(city == null || city.equals(""))
+        {
+            sharedPreferences = getSharedPreferences("address_custom", Context.MODE_PRIVATE);
+            city = sharedPreferences.getString("city", "مكة المكرمة");
+        }
+
+        mCountry.setText(city);
         if (checkNextTime(timeFajr)) {
             addProgressTime(timeFajr, timeIsha);
             mPrayerName.setText("الفجر");
@@ -461,6 +487,26 @@ public class MawaqeetElsalahActivity extends AppCompatActivity implements
             ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), REQUEST_ID_MULTIPLE_PERMISSIONS);
             return false;
         }
+
+
+
+
+
+        if(currentLocation == null)
+        {
+            LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+            currentLocation = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            if(currentLocation == null)
+                currentLocation = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+
+          /*  Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+            List<Address> addresses = geocoder.getFromLocation(currentLocation.getLatitude(), currentLocation.getLongitude(), 1);
+            String cityName = addresses.get(0).getAddressLine(0);
+            String stateName = addresses.get(0).getAddressLine(1);
+            String countryName = addresses.get(0).getAddressLine(2);*/
+        }
+
         getLocation();
         return true;
     }
@@ -585,6 +631,7 @@ public class MawaqeetElsalahActivity extends AppCompatActivity implements
                 MINIMUM_DISTANCE_CHANGE_FOR_UPDATES,
                 new MyLocationListener()
         );
+        if(currentLocation == null)
         currentLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
         if (currentLocation != null) {
@@ -592,6 +639,37 @@ public class MawaqeetElsalahActivity extends AppCompatActivity implements
                     "Current Location \n Longitude: %1$s \n Latitude: %2$s",
                     currentLocation.getLongitude(), currentLocation.getLatitude()
             );
+            Geocoder geoCoder = new Geocoder(this, Locale.getDefault()); //it is Geocoder
+            StringBuilder builder = new StringBuilder();
+            try {
+                List<Address> address = geoCoder.getFromLocation( currentLocation.getLatitude(),  currentLocation.getLongitude(), 1);
+                int maxLines = address.get(0).getMaxAddressLineIndex();
+
+                country = address.get(0).getCountryName().toLowerCase();
+                city = address.get(0).getAddressLine(0);
+
+                saveCountryandCity();
+
+                for (int i=0; i<maxLines; i++) {
+                    String addressStr = address.get(0).getAddressLine(i);
+                    builder.append(addressStr);
+                    builder.append(" ");
+                }
+
+                String fnialAddress = builder.toString(); //This is the complete address.
+
+            } catch (IOException e) {
+int n= 3;
+                sharedPreferences = getSharedPreferences("address_custom", Context.MODE_PRIVATE);
+
+                country = sharedPreferences.getString("country", "Saudi");
+                city = sharedPreferences.getString("city", "مكة المكرمة");
+
+
+            }
+            catch (NullPointerException e) {}
+
+
 //            Toast.makeText(MawaqeetElsalahActivity.this, message,
 //                    Toast.LENGTH_LONG).show();
         }
@@ -603,9 +681,48 @@ public class MawaqeetElsalahActivity extends AppCompatActivity implements
         int year = cal.get(Calendar.YEAR);
         String locale = getApplicationContext().getResources().getConfiguration().locale.getCountry();
 
-        if (currentLocation != null)
-            loadPrayerTimeData(currentLocation.getLatitude(), currentLocation.getLongitude(), 4, month, year);
+        if (currentLocation != null) {
+            Geocoder geoCoder = new Geocoder(this, Locale.getDefault()); //it is Geocoder
+            StringBuilder builder = new StringBuilder();
+            try {
+                List<Address> address = geoCoder.getFromLocation( currentLocation.getLatitude(),  currentLocation.getLongitude(), 1);
+                int maxLines = address.get(0).getMaxAddressLineIndex();
+                for (int i=0; i<maxLines; i++) {
+                    String addressStr = address.get(0).getAddressLine(i);
+                    builder.append(addressStr);
+                    builder.append(" ");
+                }
+
+                String fnialAddress = builder.toString(); //This is the complete address.
+            } catch (IOException e) {}
+            catch (NullPointerException e) {}
+
+            int method = 4;
+            if(!(country == null ||  country.equals("")))
+            {
+                if(country.contains("egypt"))
+                    method = 5;
+                if(country.contains("saudi"))
+                    method = 4;
+                if(country.contains("america"))
+                    method = 2;
+                if(country.contains("iran"))
+                    method = 7;
+                if(country.contains("turk"))
+                    method = 13;
+                if(country.contains("kuwait"))
+                    method = 9;
+                if(country.contains("qatar"))
+                    method = 10;
+                if(country.contains("singapore"))
+                    method = 11;
+                if(country.contains("france"))
+                    method = 12;
+            }
+            loadPrayerTimeData(currentLocation.getLatitude(), currentLocation.getLongitude(), method, month, year);
+        }
         else if (!loadTodayData())
+
             loadPrayerTimeData(21.422613, 39.826208, 4, month, year);
     }
     private MediaPlayer mMediaPlayer;
