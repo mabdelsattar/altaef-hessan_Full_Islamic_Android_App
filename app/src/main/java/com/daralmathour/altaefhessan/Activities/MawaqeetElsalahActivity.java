@@ -33,6 +33,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.daralmathour.altaefhessan.Models.PrayerTime;
+import com.daralmathour.altaefhessan.PrayTime;
 import com.google.gson.Gson;
 import com.daralmathour.altaefhessan.API.ConnectionManager;
 import com.daralmathour.altaefhessan.API.Model.Data;
@@ -53,6 +55,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -156,8 +159,9 @@ public class MawaqeetElsalahActivity extends AppCompatActivity implements
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     ArrayList<Boolean> prayerNotificationStatus;
-
+    int timeZone;
     String city,country;
+    PrayTime prayerTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -167,6 +171,10 @@ public class MawaqeetElsalahActivity extends AppCompatActivity implements
         if (getIntent().hasExtra("PrayerName")) {
 
         }
+
+        timeZone =  TimeZone.getDefault().getRawOffset()/3600000;
+        prayerTime =new PrayTime();
+        prayerTime.GetTimesForPray();
         SampleAlarmReceiver alarm = new SampleAlarmReceiver();
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis() + 5);
@@ -174,6 +182,8 @@ public class MawaqeetElsalahActivity extends AppCompatActivity implements
         prayerNotificationStatus = loadPrayerNotificationStatus(this);
         initNotificationIcon();
         checkAndRequestPermissions();
+
+
     }
 
     @Override
@@ -659,7 +669,7 @@ public class MawaqeetElsalahActivity extends AppCompatActivity implements
                 String fnialAddress = builder.toString(); //This is the complete address.
 
             } catch (IOException e) {
-int n= 3;
+                            int n= 3;
                 sharedPreferences = getSharedPreferences("address_custom", Context.MODE_PRIVATE);
 
                 country = sharedPreferences.getString("country", "Saudi");

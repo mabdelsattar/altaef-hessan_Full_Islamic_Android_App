@@ -9,7 +9,7 @@ android {
         targetSdkVersion 26
         versionCode 13
         versionName "1.11"
-        multiDexEnabled  true
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
@@ -29,6 +29,7 @@ dependencies {
 
 
 
+
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support:design:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -38,7 +39,6 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.2'
     compile 'com.jakewharton:butterknife:8.7.0'
     compile 'com.google.android.gms:play-services:10.0.1'
-
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
 }
