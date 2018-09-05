@@ -92,7 +92,7 @@ public class Utils {
         }
         long elapsed = d2.getTime() - d1.getTime();
         System.out.println(elapsed);
-        if (elapsed > 0)
+        if (elapsed > -5000)
             return true;
         else
             return false;

@@ -83,13 +83,13 @@ public class DownloadActivity extends AppCompatActivity {
 
                 btnDownload.setBackgroundColor(Color.WHITE);
                 btnDownload.setTextColor(Color.WHITE);
-textView.setText(textView.getText()+" Loading...");
+                textView.setText(textView.getText()+" Loading...");
                 btnDownload.setVisibility(View.GONE);
 
 
                 btnDownload.setVisibility(View.GONE);
                 songersSpinnercustom.setActivated(false);
-                textView.setText(textView.getText()+" Loading...");
+
 
 
                 if (selectedSound == 0)
@@ -101,49 +101,9 @@ textView.setText(textView.getText()+" Loading...");
                 if (selectedSound == 3)
                     _Url = "http://mojamah.net/appfiles/AL_menshwe-/";
 
+                final DownloadActivity.DownloadTask downloadTask = new DownloadActivity.DownloadTask(DownloadActivity.this, "");
+                downloadTask.execute(_Url + "nofileName");
 
-                BufferedReader reader = null;
-                try {
-                    reader = new BufferedReader(
-                            new InputStreamReader(getAssets().open("ayat_names.txt")));
-
-                    while ((mLine = reader.readLine()) != null) {
-                        //process line
-                      //  mLine += "";
-                        String fileName =mLine;
-
-                        String _Url = "";
-
-                        if (selectedSound == 0)
-                            _Url = "http://mojamah.net/appfiles/AL_Sodes-/";
-                        if (selectedSound == 1)
-                            _Url = "http://mojamah.net/appfiles/AL_Hozife-/";
-                        if (selectedSound == 2)
-                            _Url = "http://mojamah.net/appfiles/Abd_Elbaset-/";
-                        if (selectedSound == 3)
-                            _Url = "http://mojamah.net/appfiles/AL_menshwe-/";
-
-                        File root = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + _fileName);
-                        root.mkdirs();
-                        File output = new File(root + File.separator + fileName);
-                        if(!output.exists()) {
-                            final DownloadActivity.DownloadTask downloadTask = new DownloadActivity.DownloadTask(DownloadActivity.this, fileName);
-                            downloadTask.execute(_Url + fileName);
-                        }
-
-                    }
-
-                } catch (IOException e) {
-                    //log the exception
-                } finally {
-                    if (reader != null) {
-                        try {
-                            reader.close();
-                        } catch (IOException e) {
-                            //log the exception
-                        }
-                    }
-                }
 
 
             }
@@ -268,79 +228,130 @@ textView.setText(textView.getText()+" Loading...");
 
         private Context context;
         private PowerManager.WakeLock mWakeLock;
-        private String fileName;
+        private String fileNameo;
 
         public DownloadTask(Context context, String fileName) {
             this.context = context;
-            this.fileName = fileName;
+            this.fileNameo = fileName;
         }
 
         @Override
         protected String doInBackground(String... sUrl) {
-            InputStream input = null;
-            OutputStream output = null;
-            HttpURLConnection connection = null;
+
+            BufferedReader reader = null;
             try {
-                URL url = new URL(sUrl[0]);
-                connection = (HttpURLConnection) url.openConnection();
-                connection.connect();
+                reader = new BufferedReader(
+                        new InputStreamReader(getAssets().open("ayat_names.txt")));
 
-                // expect HTTP 200 OK, so we don't mistakenly save error report
-                // instead of the file
-                if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                    return "Server returned HTTP " + connection.getResponseCode()
-                            + " " + connection.getResponseMessage();
-                }
+                while ((mLine = reader.readLine()) != null) {
+                    //process line
+                    //  mLine += "";
+                    String fileName =mLine;
 
-                // this will be useful to display download percentage
-                // might be -1: server did not report the length
-                int fileLength = connection.getContentLength();
-
-                // download the file
-                input = connection.getInputStream();
-                String _fileName ="";
+                    String _Url = "";
 
                     if (selectedSound == 0)
-                        _fileName = DOWNLOADED_FILE_NAME_AL_Sodes_AYAT;
+                        _Url = "http://mojamah.net/appfiles/AL_Sodes-/";
                     if (selectedSound == 1)
-                        _fileName = DOWNLOADED_FILE_NAME_AL_Hozife_AYAT;
+                        _Url = "http://mojamah.net/appfiles/AL_Hozife-/";
                     if (selectedSound == 2)
-                        _fileName = DOWNLOADED_FILE_NAME_Abd_Elbaset_AYAT;
+                        _Url = "http://mojamah.net/appfiles/Abd_Elbaset-/";
                     if (selectedSound == 3)
-                        _fileName = DOWNLOADED_FILE_NAME_AL_menshwe_AYAT;
+                        _Url = "http://mojamah.net/appfiles/AL_menshwe-/";
 
-                File root = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + _fileName);
-                root.mkdirs();
-                output = new FileOutputStream(root + File.separator + fileName);
-                byte data[] = new byte[4096];
-                long total = 0;
-                int count;
-                while ((count = input.read(data)) != -1) {
-                    // allow canceling with back button
-                    if (isCancelled()) {
-                        input.close();
-                        return null;
+                    File root = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + _fileName);
+                    root.mkdirs();
+                    File output = new File(root + File.separator + fileName);
+                    if(!output.exists()) {
+                     //region download file here
+                        InputStream input = null;
+                        OutputStream outputfile = null;
+                        HttpURLConnection connection = null;
+                        try {
+                            URL url = new URL(sUrl[0]);
+                            connection = (HttpURLConnection) url.openConnection();
+                            connection.connect();
+
+                            // expect HTTP 200 OK, so we don't mistakenly save error report
+                            // instead of the file
+                            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                                return "Server returned HTTP " + connection.getResponseCode()
+                                        + " " + connection.getResponseMessage();
+                            }
+
+                            // this will be useful to display download percentage
+                            // might be -1: server did not report the length
+                            int fileLength = connection.getContentLength();
+
+                            // download the file
+                            input = connection.getInputStream();
+                            String _fileName ="";
+
+                            if (selectedSound == 0)
+                                _fileName = DOWNLOADED_FILE_NAME_AL_Sodes_AYAT;
+                            if (selectedSound == 1)
+                                _fileName = DOWNLOADED_FILE_NAME_AL_Hozife_AYAT;
+                            if (selectedSound == 2)
+                                _fileName = DOWNLOADED_FILE_NAME_Abd_Elbaset_AYAT;
+                            if (selectedSound == 3)
+                                _fileName = DOWNLOADED_FILE_NAME_AL_menshwe_AYAT;
+
+                            File rootfile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + _fileName);
+                            rootfile.mkdirs();
+                            outputfile = new FileOutputStream(rootfile + File.separator + fileName);
+                            byte data[] = new byte[4096];
+                            long total = 0;
+                            int count;
+                            while ((count = input.read(data)) != -1) {
+                                // allow canceling with back button
+                                if (isCancelled()) {
+                                    input.close();
+                                    return null;
+                                }
+                                total += count;
+                                // publishing the progress....
+                                if (fileLength > 0) // only if total length is known
+                                    publishProgress((int) (total * 100 / fileLength));
+                                outputfile.write(data, 0, count);
+                            }
+                        } catch (Exception e) {
+                            return e.toString();
+                        } finally {
+                            try {
+                                if (outputfile != null)
+                                    outputfile.close();
+                                if (input != null)
+                                    input.close();
+                            } catch (IOException ignored) {
+                            }
+
+                            if (connection != null)
+                                connection.disconnect();
+                        }
+                        runOnUiThread(new Runnable(){
+                            @Override
+                            public void run(){
+                                SetProgressBarValues();
+                                // change UI elements here
+                            }
+                        });
+                        //endregion
                     }
-                    total += count;
-                    // publishing the progress....
-                    if (fileLength > 0) // only if total length is known
-                        publishProgress((int) (total * 100 / fileLength));
-                    output.write(data, 0, count);
-                }
-            } catch (Exception e) {
-                return e.toString();
-            } finally {
-                try {
-                    if (output != null)
-                        output.close();
-                    if (input != null)
-                        input.close();
-                } catch (IOException ignored) {
+
                 }
 
-                if (connection != null)
-                    connection.disconnect();
+            } catch (IOException e) {
+                //log the exception
+            } finally {
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (IOException e) {
+                        //log the exception
+                    }
+                }
             }
+
             return null;
         }
 
@@ -354,6 +365,7 @@ textView.setText(textView.getText()+" Loading...");
             mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
                     getClass().getName());
             mWakeLock.acquire();
+            SetProgressBarValues();
          //   mProgressDialog.show();
         }
 
@@ -366,6 +378,7 @@ textView.setText(textView.getText()+" Loading...");
             mProgressDialog.setProgress(progress[0]);
             mProgressDialog.setCancelable(false);*/
            // SetProgressBarValues();
+            SetProgressBarValues();
         }
 
         @Override

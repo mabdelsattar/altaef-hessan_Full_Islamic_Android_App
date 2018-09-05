@@ -13,7 +13,7 @@
         android:padding="5dp"
         android:layout_height="wrap_content"
         android:drawSelectorOnTop="true"
-        style="@style/SpinnerTheme"
+        style="@style/SpinnerThemeDownload"
         android:entries="@array/songers"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />

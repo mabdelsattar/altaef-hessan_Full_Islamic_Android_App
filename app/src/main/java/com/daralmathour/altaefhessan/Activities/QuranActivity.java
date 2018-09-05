@@ -87,6 +87,7 @@ public class QuranActivity extends AppCompatActivity {
     boolean fromHome;
     boolean fromSearch;
     ImageView btnPlay;
+    ImageView btnDownloadAyat;
     String SoraName;
     Spinner songerSpinner;
     ViewPager mViewPager;
@@ -167,6 +168,15 @@ public  static  boolean isSaved= false;
         songerSpinner = (Spinner) findViewById(R.id.songersSpinner);
 
         Tafseerbutton =(ImageView) findViewById(R.id.btnTafseer);
+        btnDownloadAyat =(ImageView) findViewById(R.id.btnDownloadAyat);
+
+        btnDownloadAyat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(QuranActivity.this,DownloadActivity.class));
+            }
+        });
+
         Tafseerbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
